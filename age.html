@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your exact age in years, months, and days with additional interesting facts">
+    <title>Age Calculator - MultiCalc</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="age-calculator.css">
+    <style>
+        /* Enhanced Age Calculator Styles */
+        body {
+            background-color: #f0f4f8;
+            background-image: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+        }
+        
+        .calculator-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 0;
+        }
+        
+        .calculator-header {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .calculator-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23ffffff" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,213.3C1248,235,1344,213,1392,202.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"%3E%3C/path%3E%3C/svg%3E');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .calculator-header h1 {
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .calculator-description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .calculator-body {
+            padding: 2rem;
+        }
+        
+        .info-banner {
+            display: flex;
+            align-items: center;
+            background-color: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #3b82f6;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .calculator-icon {
+            width: 80px;
+            height: 80px;
+            margin-right: 1.5rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+        
+        .info-text h2 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            color: #1e40af;
+            font-size: 1.5rem;
+        }
+        
+        .date-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .date-inputs {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        
+        .date-select {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1.5fr;
+            gap: 0.75rem;
+        }
+        
+        select {
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: white;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+            outline: none;
+        }
+        
+        .primary-button {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+            width: 100%;
+            text-align: center;
+        }
+        
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3);
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        }
+        
+        .secondary-button {
+            background-color: #f1f5f9;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .secondary-button:hover {
+            background-color: #e2e8f0;
+        }
+        
+        .option-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 500;
+        }
+        
+        .toggle-label input[type="checkbox"] {
+            margin-right: 0.75rem;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+        
+        .result-container {
+            margin-top: 2.5rem;
+            background-color: #f8fafc;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .result-container h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: #1e293b;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .result-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .result-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .highlight {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-item label {
+            font-size: 1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        .additional-info {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .info-section {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .info-section h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            font-size: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-item label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .info-item span {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+        
+        .zodiac-icon {
+            width: 24px;
+            height: 24px;
+            margin-left: 0.5rem;
+        }
+        
+        .fun-facts {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .fun-facts h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            font-size: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .fun-facts ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        
+        .fun-facts li {
+            margin-bottom: 0.75rem;
+            color: #334155;
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">MultiCalc</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="calculator-container age-calculator-container">
+            <div class="calculator-header">
+                <h1 class="animate__animated animate__fadeIn">Age Calculator</h1>
+                <p class="calculator-description animate__animated animate__fadeIn animate__delay-1s">Discover your exact age and interesting facts about your birth date</p>
+            </div>
+            <div class="calculator-body">
+            
+            <div class="info-banner">
+                <img src="https://cdn-icons-png.flaticon.com/512/3534/3534139.png" alt="Age calculation illustration" class="calculator-icon">
+                <div class="info-text">
+                    <h2>How it works</h2>
+                    <p>Enter your birth date and optionally select an end date (defaults to today) to calculate:</p>
+                    <ul>
+                        <li>Exact age in years, months, and days</li>
+                        <li>Total number of days lived</li>
+                        <li>Days until your next birthday</li>
+                        <li>Your zodiac sign and birth day</li>
+                        <li>Additional interesting facts</li>
+                    </ul>
+                </div>
+            </div>
+
+            <form id="ageCalculator" class="calculator-form">
+                <div class="date-inputs">
+                    <div class="form-group birth-date">
+                        <label for="birthDate">Birth Date:</label>
+                        <div class="date-select">
+                            <div class="age-select-wrapper">
+                                <select id="birthDay" class="age-select" required></select>
+                            </div>
+                            <div class="age-select-wrapper">
+                                <select id="birthMonth" class="age-select" required></select>
+                            </div>
+                            <div class="age-select-wrapper">
+                                <select id="birthYear" class="age-select" required></select>
+                            </div>
+                        </div>
+                        <input type="date" id="birthDate" class="date-fallback" required>
+                    </div>
+
+                    <div class="form-group calc-date">
+                        <label for="calcDate">Calculate To (default: today):</label>
+                        <div class="date-select">
+                            <div class="age-select-wrapper">
+                                <select id="calcDay" class="age-select"></select>
+                            </div>
+                            <div class="age-select-wrapper">
+                                <select id="calcMonth" class="age-select"></select>
+                            </div>
+                            <div class="age-select-wrapper">
+                                <select id="calcYear" class="age-select"></select>
+                            </div>
+                        </div>
+                        <input type="date" id="calcDate" class="date-fallback">
+                        <button type="button" id="useToday" class="secondary-button">Use Today</button>
+                    </div>
+                </div>
+
+                <div class="option-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="liveUpdate">
+                        Enable live updates
+                    </label>
+                </div>
+              
+                <button type="submit" class="primary-button">Calculate Age</button>
+            </form>
+
+            <div id="result" class="result-container animate__animated animate__fadeIn" style="display: none;">
+                <h3>Your Age is:</h3>
+                <div class="result-grid">
+                    <div class="result-item animate__animated animate__fadeIn animate__delay-1s">
+                        <span id="years" class="highlight pulse">0</span>
+                        <label>Years</label>
+                    </div>
+                    <div class="result-item animate__animated animate__fadeIn animate__delay-2s">
+                        <span id="months" class="highlight">0</span>
+                        <label>Months</label>
+                    </div>
+                    <div class="result-item animate__animated animate__fadeIn animate__delay-3s">
+                        <span id="days" class="highlight">0</span>
+                        <label>Days</label>
+                    </div>
+                </div>
+
+                <div class="additional-info animate__animated animate__fadeIn animate__delay-4s">
+                    <div class="info-section age-result-card">
+                        <h4>Time Statistics</h4>
+                        <div class="info-grid stagger-item">
+                            <div class="info-item">
+                                <label>Total Days Lived:</label>
+                                <span id="totalDays">0</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Total Hours:</label>
+                                <span id="totalHours">0</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Total Minutes:</label>
+                                <span id="totalMinutes">0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="age-progress-container">
+                            <div class="age-progress-bar" id="ageProgressBar" style="width: 0%"></div>
+                        </div>
+                        <p class="age-progress-text">Life progress based on average lifespan of 80 years</p>
+                    </div>
+
+                    <div class="info-section age-result-card">
+                        <h4>Birthday Information</h4>
+                        <div class="info-grid stagger-item">
+                            <div class="info-item">
+                                <label>Next Birthday:</label>
+                                <span id="nextBirthday">0</span> days away
+                            </div>
+                            <div class="info-item">
+                                <label>Born On:</label>
+                                <span id="dayOfBirth">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Zodiac Sign:</label>
+                                <span id="zodiacSign">-</span>
+                                <img id="zodiacIcon" src="" alt="Zodiac Sign" class="zodiac-icon">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fun-facts age-fact-card stagger-item">
+                        <h4>Fun Facts</h4>
+                        <ul id="funFacts"></ul>
+                    </div>
+                    
+                    <div class="age-result-card">
+                        <h4>Age Milestones</h4>
+                        <div class="age-milestones-container">
+                            <div class="age-milestone" id="milestone-18">18 years - Legal adult age in most countries</div>
+                            <div class="age-milestone" id="milestone-21">21 years - Legal drinking age in many countries</div>
+                            <div class="age-milestone" id="milestone-30">30 years - Three decades milestone</div>
+                            <div class="age-milestone" id="milestone-50">50 years - Half-century milestone</div>
+                            <div class="age-milestone" id="milestone-65">65 years - Traditional retirement age</div>
+                        </div>
+                    </div>
+                    
+                    <div class="age-timeline">
+                        <h4>Your Life Timeline</h4>
+                        <div class="age-timeline-item">
+                            <div class="age-timeline-date" id="birthDateTimeline">Your Birth Date</div>
+                            <div class="age-timeline-content">The day you were born</div>
+                        </div>
+                        <div class="age-timeline-item">
+                            <div class="age-timeline-date" id="halfwayDateTimeline">Halfway Point</div>
+                            <div class="age-timeline-content">Halfway between your birth and today</div>
+                        </div>
+                        <div class="age-timeline-item">
+                            <div class="age-timeline-date" id="todayDateTimeline">Today</div>
+                            <div class="age-timeline-content">Current date</div>
+                        </div>
+                        <div class="age-timeline-item">
+                            <div class="age-timeline-date" id="nextBirthdayTimeline">Your Next Birthday</div>
+                            <div class="age-timeline-content">Coming up in <span id="nextBirthdayDays">0</span> days</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="age.js"></script>
+    <script>
+        // Enhanced UI interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scroll to results when calculated
+            document.getElementById('ageCalculator').addEventListener('submit', function(e) {
+                setTimeout(() => {
+                    const resultElement = document.getElementById('result');
+                    if (resultElement.style.display !== 'none') {
+                        resultElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        
+                        // Update age progress bar
+                        const yearsValue = parseInt(document.getElementById('years').textContent) || 0;
+                        const progressPercentage = Math.min(Math.round((yearsValue / 80) * 100), 100);
+                        const progressBar = document.getElementById('ageProgressBar');
+                        
+                        // Animate the progress bar
+                        let currentWidth = 0;
+                        const interval = setInterval(() => {
+                            if (currentWidth >= progressPercentage) {
+                                clearInterval(interval);
+                            } else {
+                                currentWidth++;
+                                progressBar.style.width = currentWidth + '%';
+                            }
+                        }, 20);
+                        
+                        // Update age milestones
+                        updateAgeMilestones(yearsValue);
+                        
+                        // Update timeline dates
+                        updateTimeline();
+                    }
+                }, 100);
+            });
+            
+            // Add hover effects to result items
+            const resultItems = document.querySelectorAll('.result-item');
+            resultItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.querySelector('.highlight').classList.add('pulse');
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.querySelector('.highlight').classList.remove('pulse');
+                });
+            });
+            
+            // Function to update age milestones
+            function updateAgeMilestones(age) {
+                const milestones = [
+                    { id: 'milestone-18', age: 18 },
+                    { id: 'milestone-21', age: 21 },
+                    { id: 'milestone-30', age: 30 },
+                    { id: 'milestone-50', age: 50 },
+                    { id: 'milestone-65', age: 65 }
+                ];
+                
+                milestones.forEach(milestone => {
+                    const element = document.getElementById(milestone.id);
+                    if (element) {
+                        if (age >= milestone.age) {
+                            element.classList.add('achieved');
+                        } else {
+                            element.classList.remove('achieved');
+                        }
+                    }
+                });
+            }
+            
+            // Function to update timeline
+            function updateTimeline() {
+                const birthDateInput = document.getElementById('birthDate');
+                const calcDateInput = document.getElementById('calcDate');
+                
+                if (birthDateInput.value) {
+                    const birthDate = new Date(birthDateInput.value);
+                    const calcDate = calcDateInput.value ? new Date(calcDateInput.value) : new Date();
+                    
+                    // Format dates for timeline
+                    document.getElementById('birthDateTimeline').textContent = formatDate(birthDate);
+                    document.getElementById('todayDateTimeline').textContent = formatDate(calcDate);
+                    
+                    // Calculate halfway point
+                    const halfwayTimestamp = (birthDate.getTime() + calcDate.getTime()) / 2;
+                    const halfwayDate = new Date(halfwayTimestamp);
+                    document.getElementById('halfwayDateTimeline').textContent = formatDate(halfwayDate);
+                    
+                    // Next birthday
+                    const nextBirthdayDays = document.getElementById('nextBirthday').textContent;
+                    document.getElementById('nextBirthdayDays').textContent = nextBirthdayDays;
+                    
+                    // Calculate next birthday date
+                    const nextBirthdayDate = new Date(calcDate);
+                    nextBirthdayDate.setDate(nextBirthdayDate.getDate() + parseInt(nextBirthdayDays));
+                    document.getElementById('nextBirthdayTimeline').textContent = formatDate(nextBirthdayDate);
+                }
+            }
+            
+            // Helper function to format date
+            function formatDate(date) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return date.toLocaleDateString(undefined, options);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate years until retirement and plan your future">
+    <title>Retirement Calculator - MultiCalc</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">MultiCalc</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="calculator-container">
+            <h1>Retirement Calculator</h1>
+            <p>Find out how many years until your retirement</p>
+            
+            <div class="ad-container">
+                <!-- AdSense Ad Unit -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-placeholder"
+                    data-ad-slot="placeholder"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+            </div>
+
+            <form id="retirementCalculator" class="calculator-form">
+                <div class="form-group">
+                    <label for="currentAge">Current Age:</label>
+                    <input type="number" id="currentAge" required min="0" max="120" step="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="retirementAge">Target Retirement Age:</label>
+                    <input type="number" id="retirementAge" required min="1" max="120" step="1" value="60">
+                </div>
+
+                <div class="form-group">
+                    <label for="region">Region:</label>
+                    <select id="region" required>
+                        <option value="60">Default (60 years)</option>
+                        <option value="65">US/UK (65 years)</option>
+                        <option value="67">EU Standard (67 years)</option>
+                        <option value="70">Extended Career (70 years)</option>
+                        <option value="custom">Custom Age</option>
+                    </select>
+                </div>
+
+                <button type="submit">Calculate Years to Retirement</button>
+            </form>
+
+            <div id="result" class="result-container" style="display: none;">
+                <h3>Your Retirement Plan:</h3>
+                <div class="retirement-result">
+                    <div class="result-item highlight">
+                        <span id="yearsToRetirement">0</span>
+                        <label>Years until Retirement</label>
+                    </div>
+                    <div class="result-info">
+                        <p>You will reach retirement age in <span id="retirementYear">2025</span></p>
+                        <p class="retirement-note" id="retirementNote"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="retirement.js"></script>
+</body>
+</html>

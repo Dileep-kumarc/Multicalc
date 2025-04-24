@@ -1,0 +1,254 @@
+/* Age Calculator Custom Styles */
+
+/* Custom Age Calculator Theme */
+:root {
+    --age-primary: #2563eb;
+    --age-primary-dark: #1e40af;
+    --age-secondary: #3b82f6;
+    --age-accent: #f59e0b;
+    --age-background: #f0f4f8;
+    --age-card: #ffffff;
+    --age-text: #1e293b;
+    --age-text-light: #64748b;
+    --age-border: #e2e8f0;
+    --age-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --age-radius: 16px;
+    --age-transition: all 0.3s ease;
+}
+
+/* Age Calculator Container */
+.age-calculator-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    background-color: var(--age-card);
+    border-radius: var(--age-radius);
+    box-shadow: var(--age-shadow);
+    overflow: hidden;
+    padding: 0;
+    transform: translateY(0);
+    transition: var(--age-transition);
+}
+
+.age-calculator-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Age Milestone Indicators */
+.age-milestone {
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.age-milestone::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: var(--age-primary);
+    border-radius: 50%;
+    opacity: 0.2;
+}
+
+.age-milestone::after {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: var(--age-primary);
+    border-radius: 50%;
+}
+
+.age-milestone.achieved::before {
+    background-color: var(--age-accent);
+    opacity: 0.3;
+}
+
+.age-milestone.achieved::after {
+    background-color: var(--age-accent);
+}
+
+/* Age Progress Bar */
+.age-progress-container {
+    margin: 2rem 0;
+    background-color: var(--age-border);
+    border-radius: 1rem;
+    height: 0.5rem;
+    overflow: hidden;
+}
+
+.age-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--age-primary), var(--age-accent));
+    border-radius: 1rem;
+    transition: width 1s ease-in-out;
+}
+
+/* Age Timeline */
+.age-timeline {
+    position: relative;
+    padding: 1.5rem 0;
+    margin: 2rem 0;
+}
+
+.age-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background-color: var(--age-border);
+}
+
+.age-timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 2rem;
+}
+
+.age-timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background-color: var(--age-primary);
+    z-index: 1;
+}
+
+.age-timeline-date {
+    font-weight: 600;
+    color: var(--age-primary);
+    margin-bottom: 0.5rem;
+}
+
+/* Enhanced Form Elements */
+.age-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.age-select-wrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--age-text-light);
+    pointer-events: none;
+    font-size: 0.8rem;
+}
+
+.age-select {
+    appearance: none;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--age-border);
+    border-radius: 8px;
+    background-color: white;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.age-select:focus {
+    border-color: var(--age-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    outline: none;
+}
+
+/* Age Result Cards */
+.age-result-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.age-result-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--age-primary), var(--age-accent));
+}
+
+.age-result-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+/* Age Fact Cards */
+.age-fact-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border-left: 4px solid var(--age-accent);
+    transition: transform 0.3s ease;
+}
+
+.age-fact-card:hover {
+    transform: translateX(5px);
+}
+
+/* Animations */
+@keyframes countUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.count-animation {
+    animation: countUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeInStagger {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.stagger-item {
+    opacity: 0;
+}
+
+.stagger-item:nth-child(1) { animation: fadeInStagger 0.5s ease-out 0.1s forwards; }
+.stagger-item:nth-child(2) { animation: fadeInStagger 0.5s ease-out 0.2s forwards; }
+.stagger-item:nth-child(3) { animation: fadeInStagger 0.5s ease-out 0.3s forwards; }
+.stagger-item:nth-child(4) { animation: fadeInStagger 0.5s ease-out 0.4s forwards; }
+.stagger-item:nth-child(5) { animation: fadeInStagger 0.5s ease-out 0.5s forwards; }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .age-calculator-container {
+        margin: 1rem;
+        max-width: calc(100% - 2rem);
+    }
+    
+    .age-timeline::before {
+        left: 1rem;
+    }
+    
+    .age-timeline-item {
+        padding-left: 3rem;
+    }
+    
+    .age-timeline-item::before {
+        left: 1rem;
+    }
+}

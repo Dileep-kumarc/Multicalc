@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate what final exam score you need to achieve your desired grade">
+    <title>Grade Calculator - MultiCalc</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">MultiCalc</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="calculator-container">
+            <h1>Grade Calculator</h1>
+            <p>Calculate the grade you need on your final to achieve your desired course grade</p>
+            
+            <div class="ad-container">
+                <!-- AdSense Ad Unit -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-placeholder"
+                    data-ad-slot="placeholder"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+            </div>
+
+            <form id="gradeCalculator" class="calculator-form">
+                <div class="form-group">
+                    <label for="gradeSystem">Grade System:</label>
+                    <select id="gradeSystem" required>
+                        <option value="100">Percentage (0-100)</option>
+                        <option value="4.0">4.0 Scale</option>
+                    </select>
+                </div>
+
+                <div id="currentGrades">
+                    <h3>Current Grades</h3>
+                    <div id="gradesContainer">
+                        <!-- Grade entries will be added here dynamically -->
+                    </div>
+                    <button type="button" id="addGrade">Add Grade</button>
+                </div>
+
+                <div class="form-group">
+                    <label for="finalWeight">Final Exam Weight (%):</label>
+                    <input type="number" id="finalWeight" required min="1" max="100" value="30">
+                </div>
+
+                <div class="form-group">
+                    <label for="desiredGrade">Desired Final Course Grade:</label>
+                    <div class="input-group">
+                        <input type="number" id="desiredGrade" required min="0" max="100" step="0.1">
+                        <span class="unit-label" id="gradeUnit">%</span>
+                    </div>
+                </div>
+
+                <button type="submit">Calculate Required Grade</button>
+            </form>
+
+            <div id="result" class="result-container" style="display: none;">
+                <h3>Required Final Exam Grade:</h3>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span id="requiredGrade" class="highlight">0</span>
+                        <label id="requiredGradeLabel">%</label>
+                    </div>
+                    <div class="result-item">
+                        <span id="currentAverage">0</span>
+                        <label>Current Average</label>
+                    </div>
+                </div>
+                <div class="grade-note">
+                    <p id="feasibilityNote"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="grade.js"></script>
+</body>
+</html>

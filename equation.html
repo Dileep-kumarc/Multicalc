@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Solve linear and quadratic equations with step-by-step solutions">
+    <title>Equation Solver - MultiCalc</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.3/katex.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.3/katex.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.3/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">MultiCalc</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="calculator-container">
+            <h1>Equation Solver</h1>
+            <p>Solve linear and quadratic equations with step-by-step solutions</p>
+            
+            <div class="ad-container">
+                <!-- AdSense Ad Unit -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-placeholder"
+                    data-ad-slot="placeholder"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+            </div>
+
+            <div class="calc-tabs">
+                <button type="button" class="tab-button active" data-tab="linear">Linear Equation</button>
+                <button type="button" class="tab-button" data-tab="quadratic">Quadratic Equation</button>
+            </div>
+
+            <!-- Linear Equation Solver -->
+            <form id="linearSolver" class="calculator-form tab-content active">
+                <h3>Linear Equation (ax + b = c)</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="linearA">a:</label>
+                        <input type="number" id="linearA" required step="any">
+                    </div>
+                    <div class="equation-text">x +</div>
+                    <div class="form-group">
+                        <label for="linearB">b:</label>
+                        <input type="number" id="linearB" required step="any">
+                    </div>
+                    <div class="equation-text">=</div>
+                    <div class="form-group">
+                        <label for="linearC">c:</label>
+                        <input type="number" id="linearC" required step="any">
+                    </div>
+                </div>
+                <div class="equation-preview" id="linearPreview"></div>
+                <button type="submit">Solve Equation</button>
+            </form>
+
+            <!-- Quadratic Equation Solver -->
+            <form id="quadraticSolver" class="calculator-form tab-content">
+                <h3>Quadratic Equation (ax² + bx + c = 0)</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quadraticA">a:</label>
+                        <input type="number" id="quadraticA" required step="any" value="1">
+                    </div>
+                    <div class="equation-text">x² +</div>
+                    <div class="form-group">
+                        <label for="quadraticB">b:</label>
+                        <input type="number" id="quadraticB" required step="any" value="0">
+                    </div>
+                    <div class="equation-text">x +</div>
+                    <div class="form-group">
+                        <label for="quadraticC">c:</label>
+                        <input type="number" id="quadraticC" required step="any" value="0">
+                    </div>
+                    <div class="equation-text">= 0</div>
+                </div>
+                <div class="equation-preview" id="quadraticPreview"></div>
+                <button type="submit">Solve Equation</button>
+            </form>
+
+            <div id="result" class="result-container" style="display: none;">
+                <h3>Solution:</h3>
+                <div class="solution-display">
+                    <div id="solution" class="highlight"></div>
+                </div>
+                
+                <div class="steps-container">
+                    <h4>Step-by-Step Solution:</h4>
+                    <div id="steps"></div>
+                </div>
+
+                <div id="graphContainer" style="display: none;">
+                    <h4>Graph:</h4>
+                    <div id="graph"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="equation.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Interest Calculator</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">MultiCalc</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="content-container">
+        <h1>Simple Interest Calculator</h1>
+        <div class="calculator-container">
+            <form id="simpleInterestForm">
+                <div class="form-group">
+                    <label for="principal">Principal Amount:</label>
+                    <div class="input-group">
+                        <select id="currency" name="currency">
+                            <option value="USD">USD ($)</option>
+                            <option value="INR">INR (₹)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                        </select>
+                        <input type="number" id="principal" name="principal" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rate">Annual Interest Rate (%):</label>
+                    <input type="number" id="rate" name="rate" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="years">Time Period (years):</label>
+                    <input type="number" id="years" name="years" required>
+                </div>
+                <button type="submit">Calculate</button>
+            </form>
+            <div class="result-container">
+                <h3>Calculation Result</h3>
+                <div class="chart-container">
+                    <canvas id="growthChart"></canvas>
+                </div>
+                <div class="result-item">
+                    <h3>Future Value</h3>
+                    <span id="futureValue">-</span>
+                </div>
+                <div class="result-item">
+                    <h3>Total Interest</h3>
+                    <span id="totalInterest">-</span>
+                </div>
+            </div>
+        </div>
+        <div class="about-section">
+            <h2>What is Simple Interest?</h2>
+            <p>Simple interest is a quick method of calculating the interest charge on a loan. Simple interest is determined by multiplying the daily interest rate by the principal by the number of days that elapse between payments.</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="simple-interest.js"></script>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

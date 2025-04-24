@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate various probability scenarios including simple probability, combinations, and permutations">
+    <title>Probability Calculator - MultiCalc</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #3a56d4;
+            --text-color: #2d3748;
+            --light-text: #718096;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .container {
+            flex: 1;
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .calculator-section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.2);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            background-color: #f3f4f6;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .example {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            background-color: #f8fafc;
+            border-left: 3px solid var(--primary-color);
+            font-size: 0.9rem;
+            color: var(--light-text);
+        }
+
+        .example h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            padding: 2rem 1rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #4a5568;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">MultiCalc</div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1><i class="fas fa-dice"></i> Probability Calculator</h1>
+        
+        <div class="calculator-section">
+            <h2><i class="fas fa-percentage"></i> Simple Probability</h2>
+            <div class="input-group">
+                <label for="favorable">Favorable Outcomes:</label>
+                <input type="number" id="favorable" min="0" step="1" placeholder="e.g., 3 (number of red marbles)">
+            </div>
+            <div class="input-group">
+                <label for="total">Total Possible Outcomes:</label>
+                <input type="number" id="total" min="1" step="1" placeholder="e.g., 10 (total marbles)">
+            </div>
+            <button onclick="calculateProbability()"><i class="fas fa-calculator"></i> Calculate Probability</button>
+            <div id="probability-result" class="result"></div>
+            <div class="example">
+                <h3>Example:</h3>
+                <p>A jar contains 5 red marbles and 5 blue marbles. The probability of drawing a red marble would be:</p>
+                <p>Favorable: 5 (red marbles), Total: 10 (total marbles) → Probability = 0.5 (50%)</p>
+            </div>
+        </div>
+
+        <div class="calculator-section">
+            <h2><i class="fas fa-object-group"></i> Combinations (nCr)</h2>
+            <div class="input-group">
+                <label for="n">Total Items (n):</label>
+                <input type="number" id="n" min="0" step="1" placeholder="e.g., 10 (total team members)">
+            </div>
+            <div class="input-group">
+                <label for="r">Items to Choose (r):</label>
+                <input type="number" id="r" min="0" step="1" placeholder="e.g., 3 (committee members)">
+            </div>
+            <button onclick="calculateCombination()"><i class="fas fa-calculator"></i> Calculate Combination</button>
+            <div id="combination-result" class="result"></div>
+            <div class="example">
+                <h3>Example:</h3>
+                <p>How many ways can you choose 3 people from a group of 10 where order doesn't matter?</p>
+                <p>n = 10, r = 3 → 120 possible combinations</p>
+            </div>
+        </div>
+
+        <div class="calculator-section">
+            <h2><i class="fas fa-list-ol"></i> Permutations (nPr)</h2>
+            <div class="input-group">
+                <label for="n-perm">Total Items (n):</label>
+                <input type="number" id="n-perm" min="0" step="1" placeholder="e.g., 5 (total runners)">
+            </div>
+            <div class="input-group">
+                <label for="r-perm">Items to Arrange (r):</label>
+                <input type="number" id="r-perm" min="0" step="1" placeholder="e.g., 3 (medal positions)">
+            </div>
+            <button onclick="calculatePermutation()"><i class="fas fa-calculator"></i> Calculate Permutation</button>
+            <div id="permutation-result" class="result"></div>
+            <div class="example">
+                <h3>Example:</h3>
+                <p>How many ways can 5 runners finish 1st, 2nd, and 3rd (order matters)?</p>
+                <p>n = 5, r = 3 → 60 possible permutations</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="privacy.html"><i class="fas fa-lock"></i> Privacy Policy</a></li>
+                    <li><a href="terms.html"><i class="fas fa-file-alt"></i> Terms of Use</a></li>
+                    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Probability Calculator
+
+        // Simple Probability Calculation
+        function calculateProbability() {
+            const favorable = parseInt(document.getElementById('favorable').value);
+            const total = parseInt(document.getElementById('total').value);
+
+            if (isNaN(favorable) || isNaN(total) || total <= 0 || favorable < 0 || favorable > total) {
+                document.getElementById('probability-result').textContent = 'Please enter valid numbers (0 ≤ favorable ≤ total)';
+                document.getElementById('probability-result').style.color = 'var(--danger-color)';
+                return;
+            }
+
+            const probability = (favorable / total).toFixed(4);
+            const percentage = (probability * 100).toFixed(2);
+            document.getElementById('probability-result').innerHTML = `
+                Probability: <strong>${probability}</strong> (${percentage}%)<br>
+                ${favorable} favorable / ${total} total
+            `;
+            document.getElementById('probability-result').style.color = 'var(--text-color)';
+        }
+
+        // Combination Calculation (nCr)
+        function calculateCombination() {
+            const n = parseInt(document.getElementById('n').value);
+            const r = parseInt(document.getElementById('r').value);
+
+            if (isNaN(n) || isNaN(r) || n < 0 || r < 0 || r > n) {
+                document.getElementById('combination-result').textContent = 'Please enter valid numbers (0 ≤ r ≤ n)';
+                document.getElementById('combination-result').style.color = 'var(--danger-color)';
+                return;
+            }
+
+            const combination = factorial(n) / (factorial(r) * factorial(n - r));
+            document.getElementById('combination-result').innerHTML = `
+                Combination (nCr): <strong>${combination.toLocaleString()}</strong><br>
+                ${n}C${r} = ${n}! / (${r}! × ${n-r}!) = ${combination.toLocaleString()}
+            `;
+            document.getElementById('combination-result').style.color = 'var(--text-color)';
+        }
+
+        // Permutation Calculation (nPr)
+        function calculatePermutation() {
+            const n = parseInt(document.getElementById('n-perm').value);
+            const r = parseInt(document.getElementById('r-perm').value);
+
+            if (isNaN(n) || isNaN(r) || n < 0 || r < 0 || r > n) {
+                document.getElementById('permutation-result').textContent = 'Please enter valid numbers (0 ≤ r ≤ n)';
+                document.getElementById('permutation-result').style.color = 'var(--danger-color)';
+                return;
+            }
+
+            const permutation = factorial(n) / factorial(n - r);
+            document.getElementById('permutation-result').innerHTML = `
+                Permutation (nPr): <strong>${permutation.toLocaleString()}</strong><br>
+                ${n}P${r} = ${n}! / (${n}-${r})! = ${permutation.toLocaleString()}
+            `;
+            document.getElementById('permutation-result').style.color = 'var(--text-color)';
+        }
+
+        // Factorial Helper Function
+        function factorial(num) {
+            if (num === 0 || num === 1) return 1;
+            if (num > 170) return Infinity; // JavaScript can't handle larger factorials accurately
+            let result = 1;
+            for (let i = 2; i <= num; i++) {
+                result *= i;
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>

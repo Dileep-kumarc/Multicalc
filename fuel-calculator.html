@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate fuel cost for your trip">
+    <title>Fuel Cost Calculator - MultiCalc</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">MultiCalc</a>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="content-container">
+            <h1>Fuel Cost Calculator</h1>
+            <p class="calculator-description">Calculate the fuel cost for your trip based on distance, fuel efficiency, and fuel price.</p>
+
+            <form id="fuelCalculator" class="calculator-form">
+                <div class="form-group">
+                    <label for="tripDistance">Trip Distance:</label>
+                    <div class="input-group">
+                        <input type="number" id="tripDistance" required min="0" step="0.1" placeholder="Enter distance">
+                        <select id="distanceUnit">
+                            <option value="km">Kilometers</option>
+                            <option value="mi">Miles</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fuelEfficiency">Fuel Efficiency:</label>
+                    <div class="input-group">
+                        <input type="number" id="fuelEfficiency" required min="0" step="0.1" placeholder="Enter efficiency">
+                        <select id="efficiencyUnit">
+                            <option value="l100km">Liters per 100km</option>
+                            <option value="mpg">Miles per gallon</option>
+                            <option value="kmpl">Kilometers per liter</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fuelPrice">Fuel Price:</label>
+                    <div class="input-group">
+                        <input type="number" id="fuelPrice" required min="0" step="0.01" placeholder="Enter price per unit">
+                        <select id="priceUnit">
+                            <option value="perLiter">per Liter</option>
+                            <option value="perGallon">per Gallon</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="currency">Currency:</label>
+                    <select id="currency">
+                        <option value="USD">USD ($)</option>
+                        <option value="EUR">EUR (€)</option>
+                        <option value="GBP">GBP (£)</option>
+                        <option value="JPY">JPY (¥)</option>
+                        <option value="CAD">CAD ($)</option>
+                        <option value="AUD">AUD ($)</option>
+                        <option value="INR">INR (₹)</option>
+                    </select>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="primary-button">
+                        <i class="fas fa-calculator"></i> Calculate
+                    </button>
+                    <button type="button" id="reset" class="secondary-button">
+                        <i class="fas fa-trash-alt"></i> Reset
+                    </button>
+                </div>
+            </form>
+
+            <div class="result-container">
+                <h2><i class="fas fa-gas-pump"></i> Fuel Cost Results</h2>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span id="fuelRequired" class="highlight">0</span>
+                        <label>Fuel Required</label>
+                    </div>
+                    <div class="result-item">
+                        <span id="totalCost" class="highlight">0</span>
+                        <label>Total Cost</label>
+                    </div>
+                    <div class="result-item">
+                        <span id="costPerKm" class="highlight">0</span>
+                        <label>Cost per km</label>
+                    </div>
+                </div>
+
+                <div class="calculation-breakdown">
+                    <h3><i class="fas fa-info-circle"></i> Calculation Breakdown</h3>
+                    <p id="calculationSteps"></p>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2><i class="fas fa-lightbulb"></i> Fuel Efficiency Tips</h2>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <h3>Maintain Steady Speed</h3>
+                        <p>Avoid rapid acceleration and braking to improve fuel efficiency by up to 30% on highways.</p>
+                    </div>
+                    <div class="tip-card">
+                        <i class="fas fa-car"></i>
+                        <h3>Proper Tire Pressure</h3>
+                        <p>Under-inflated tires can lower gas mileage by about 0.2% for every 1 psi drop.</p>
+                    </div>
+                    <div class="tip-card">
+                        <i class="fas fa-weight"></i>
+                        <h3>Reduce Vehicle Weight</h3>
+                        <p>An extra 100 pounds reduces MPG by about 1% for smaller vehicles.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>MultiCalc</h4>
+                    <p>Your comprehensive calculation solution for everyday needs.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Calculators</h4>
+                    <ul>
+                        <li><a href="unit.html">Unit Converter</a></li>
+                        <li><a href="age.html">Age Calculator</a></li>
+                        <li><a href="speed.html">Speed Calculator</a></li>
+                        <li><a href="retirement.html">Retairment Calculator</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved. | Version 2.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="fuel-calculator.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate the break-even point for your business">
+    <title>Break-Even Calculator - MultiCalc</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .visual-container {
+            margin: 20px 0;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .result-item {
+            background-color: #f8fafc;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            flex-direction: column;
+        }
+        .result-item span {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .result-item strong {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-top: 5px;
+        }
+        .result-explanation {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            border-radius: var(--radius-sm);
+        }
+        .info-box {
+            background-color: #f8f9fa;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin: 25px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        .error {
+            color: #e53e3e;
+            font-weight: 500;
+        }
+        .secondary-button {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            margin-left: 10px;
+        }
+        .secondary-button:hover {
+            background-color: #cbd5e0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">MultiCalc</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="calculator-container">
+            <h1>Break-Even Calculator</h1>
+            <p>Determine when your business will become profitable</p>
+            
+            <div class="visual-container">
+                <svg id="breakEvenChart" width="100%" height="300" viewBox="0 0 600 300" style="background-color: #f9f9f9; border-radius: 8px; margin: 20px 0;">
+                    <line x1="50" y1="250" x2="550" y2="250" stroke="#333" stroke-width="2"/>
+                    <line x1="50" y1="250" x2="50" y2="50" stroke="#333" stroke-width="2"/>
+                    
+                    <!-- X-axis label -->
+                    <text x="300" y="290" text-anchor="middle" font-size="14">Units Sold</text>
+                    
+                    <!-- Y-axis label -->
+                    <text x="20" y="150" text-anchor="middle" font-size="14" transform="rotate(-90, 20, 150)">Amount ($)</text>
+                    
+                    <!-- Fixed Cost Line -->
+                    <line x1="50" y1="200" x2="550" y2="200" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="60" y="195" font-size="12" fill="#e74c3c">Fixed Costs</text>
+                    
+                    <!-- Total Cost Line -->
+                    <line x1="50" y1="200" x2="550" y2="100" stroke="#e67e22" stroke-width="2"/>
+                    <text x="500" y="110" font-size="12" fill="#e67e22">Total Costs</text>
+                    
+                    <!-- Revenue Line -->
+                    <line x1="50" y1="250" x2="550" y2="50" stroke="#2ecc71" stroke-width="2"/>
+                    <text x="500" y="60" font-size="12" fill="#2ecc71">Revenue</text>
+                    
+                    <!-- Break-even Point -->
+                    <circle cx="300" cy="150" r="6" fill="#3498db"/>
+                    <text x="310" y="140" font-size="12" fill="#3498db">Break-even Point</text>
+                </svg>
+            </div>
+            
+            <form id="breakEvenForm">
+                <div class="form-group">
+                    <label for="fixedCosts">Fixed Costs ($):</label>
+                    <input type="number" id="fixedCosts" placeholder="Total fixed costs" required>
+                    <small>Examples: rent, insurance, salaries</small>
+                </div>
+                <div class="form-group">
+                    <label for="variableCosts">Variable Costs per Unit ($):</label>
+                    <input type="number" id="variableCosts" placeholder="Cost per unit" step="0.01" required>
+                    <small>Examples: materials, direct labor, packaging</small>
+                </div>
+                <div class="form-group">
+                    <label for="pricePerUnit">Selling Price per Unit ($):</label>
+                    <input type="number" id="pricePerUnit" placeholder="Price per unit" step="0.01" required>
+                </div>
+                <button type="button" id="calculate">Calculate Break-Even Point</button>
+            </form>
+            
+            <div id="result" class="result-container"></div>
+            
+            <div class="info-box">
+                <h3>Understanding Break-Even Analysis</h3>
+                <p>The break-even point is where total revenue equals total costs, resulting in zero profit or loss.</p>
+                <p>Break-Even Formula: <strong>Fixed Costs ÷ (Price per Unit - Variable Cost per Unit)</strong></p>
+            </div>
+            
+            <div class="ad-container">
+                <!-- AdSense Ad Unit -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-placeholder"
+                    data-ad-slot="placeholder"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <script src="break-even.js"></script>
+</body>
+</html>

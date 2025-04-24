@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert between cooking measurements - cups, tablespoons, teaspoons, grams, and more">
+    <title>Cooking Measurement Converter - MultiCalc</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Cooking-specific styles */
+        .ingredient-selector {
+            margin-bottom: 1.5rem;
+        }
+        
+        .ingredient-image {
+            width: 100%;
+            height: 150px;
+            background-color: #f5f5f5;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .ingredient-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .equivalents-list {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-top: 1.5rem;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .equivalent-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .equivalent-item:last-child {
+            border-bottom: none;
+        }
+        
+        .measurement-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .tip-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .tip-card i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Dark mode adjustments */
+        body.dark-mode .ingredient-image {
+            background-color: #2d2d2d;
+        }
+        
+        body.dark-mode .equivalents-list,
+        body.dark-mode .tip-card {
+            background-color: #1e1e1e;
+        }
+        
+        body.dark-mode .equivalent-item {
+            border-bottom-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">MultiCalc</a>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="content-container">
+            <h1>Cooking Measurement Converter</h1>
+            <p class="calculator-description">Convert between cups, tablespoons, teaspoons, grams, and other cooking measurements.</p>
+
+            <div class="ingredient-selector">
+                <label for="ingredient">Ingredient:</label>
+                <select id="ingredient" class="full-width-select">
+                    <option value="flour">All-purpose Flour</option>
+                    <option value="sugar">Granulated Sugar</option>
+                    <option value="brown_sugar">Brown Sugar</option>
+                    <option value="butter">Butter</option>
+                    <option value="milk">Milk</option>
+                    <option value="water">Water</option>
+                    <option value="honey">Honey</option>
+                    <option value="oil">Vegetable Oil</option>
+                    <option value="salt">Salt</option>
+                    <option value="yeast">Yeast</option>
+                </select>
+            </div>
+
+            <div class="ingredient-image">
+                <img id="ingredientImg" src="https://via.placeholder.com/300x150?text=Select+Ingredient" alt="Ingredient">
+            </div>
+
+            <form id="cookingConverter" class="calculator-form">
+                <div class="conversion-container">
+                    <div class="form-group">
+                        <label for="cookFromValue">From:</label>
+                        <div class="input-group">
+                            <input type="number" id="cookFromValue" step="0.01" min="0" placeholder="Amount">
+                            <select id="cookFromUnit">
+                                <option value="cup">Cups</option>
+                                <option value="tbsp">Tablespoons</option>
+                                <option value="tsp">Teaspoons</option>
+                                <option value="ml">Milliliters (ml)</option>
+                                <option value="l">Liters (l)</option>
+                                <option value="g">Grams (g)</option>
+                                <option value="kg">Kilograms (kg)</option>
+                                <option value="oz">Ounces (oz)</option>
+                                <option value="lb">Pounds (lb)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cookToValue">To:</label>
+                        <div class="input-group">
+                            <input type="number" id="cookToValue" readonly placeholder="Result">
+                            <select id="cookToUnit">
+                                <option value="cup">Cups</option>
+                                <option value="tbsp">Tablespoons</option>
+                                <option value="tsp">Teaspoons</option>
+                                <option value="ml">Milliliters (ml)</option>
+                                <option value="l">Liters (l)</option>
+                                <option value="g">Grams (g)</option>
+                                <option value="kg">Kilograms (kg)</option>
+                                <option value="oz">Ounces (oz)</option>
+                                <option value="lb">Pounds (lb)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" id="cookConvert" class="primary-button">
+                        <i class="fas fa-exchange-alt"></i> Convert
+                    </button>
+                    <button type="button" id="cookSwap" class="secondary-button">
+                        <i class="fas fa-random"></i> Swap
+                    </button>
+                    <button type="button" id="cookClear" class="secondary-button">
+                        <i class="fas fa-trash-alt"></i> Clear
+                    </button>
+                </div>
+            </form>
+
+            <div class="result-container">
+                <div id="cookResult" class="result">0</div>
+                <div id="cookDetails" class="formula">Select ingredient and units to see conversion</div>
+            </div>
+
+            <div class="equivalents-list">
+                <h3><i class="fas fa-balance-scale"></i> Common Equivalents</h3>
+                <div id="equivalents">
+                    <div class="equivalent-item">
+                        <span>1 cup</span>
+                        <span>16 tablespoons</span>
+                    </div>
+                    <div class="equivalent-item">
+                        <span>1 tablespoon</span>
+                        <span>3 teaspoons</span>
+                    </div>
+                    <div class="equivalent-item">
+                        <span>1 cup</span>
+                        <span>240 ml</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2><i class="fas fa-utensils"></i> Cooking Measurement Tips</h2>
+                <div class="measurement-tips">
+                    <div class="tip-card">
+                        <i class="fas fa-weight-hanging"></i>
+                        <h3>Weigh Ingredients</h3>
+                        <p>For accuracy, use a kitchen scale. 1 cup of flour can vary from 120-150g depending on how it's scooped.</p>
+                    </div>
+                    <div class="tip-card">
+                        <i class="fas fa-spoon"></i>
+                        <h3>Proper Measuring</h3>
+                        <p>For dry ingredients, spoon into measuring cup and level off with a straight edge. For liquids, use clear liquid measuring cups.</p>
+                    </div>
+                    <div class="tip-card">
+                        <i class="fas fa-tint"></i>
+                        <h3>Liquid vs Dry</h3>
+                        <p>Don't interchange liquid and dry measuring cups - they're designed differently for accurate measurements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>MultiCalc</h4>
+                    <p>Your comprehensive calculation solution for everyday needs.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Calculators</h4>
+                    <ul>
+                        <li><a href="unit.html">Unit Converter</a></li>
+                        <li><a href="cooking measument.html">Cooking Converter</a></li>
+                        <li><a href="temperature.html">Temperature Converter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved. | Version 2.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Ingredient data with conversion factors (grams per unit)
+        const ingredients = {
+            flour: {
+                name: "All-purpose Flour",
+                image: "https://cdn.pixabay.com/photo/2016/03/23/15/00/wheat-1275361_640.jpg",
+                conversions: {
+                    cup: 125,    // grams per cup
+                    tbsp: 7.8,   // grams per tablespoon
+                    tsp: 2.6,    // grams per teaspoon
+                    g: 1,        // 1 gram = 1 gram
+                    kg: 1000,    // grams per kg
+                    oz: 28.35,   // grams per ounce
+                    lb: 453.6,   // grams per pound
+                    ml: 0.52,    // grams per ml (approximate)
+                    l: 520       // grams per liter (approximate)
+                }
+            },
+            sugar: {
+                name: "Granulated Sugar",
+                image: "https://cdn.pixabay.com/photo/2017/01/11/10/25/sugar-1971251_640.jpg",
+                conversions: {
+                    cup: 200,
+                    tbsp: 12.5,
+                    tsp: 4.2,
+                    g: 1,
+                    kg: 1000,
+                    oz: 28.35,
+                    lb: 453.6,
+                    ml: 0.85,
+                    l: 850
+                }
+            },
+            brown_sugar: {
+                name: "Brown Sugar",
+                image: "https://cdn.pixabay.com/photo/2017/09/16/18/39/sugar-2757217_640.jpg",
+                conversions: {
+                    cup: 220,
+                    tbsp: 13.75,
+                    tsp: 4.6,
+                    g: 1,
+                    kg: 1000,
+                    oz: 28.35,
+                    lb: 453.6,
+                    ml: 0.8,
+                    l: 800
+                }
+            },
+            butter: {
+                name: "Butter",
+                image: "https://cdn.pixabay.com/photo/2016/03/23/15/00/butter-1275358_640.jpg",
+                conversions: {
+                    cup: 227,
+                    tbsp: 14.2,
+                    tsp: 4.7,
+                    g: 1,
+                    kg: 1000,
+                    oz: 28.35,
+                    lb: 453.6,
+                    ml: 0.96,
+                    l: 960
+                }
+            },
+            // Add other ingredients similarly...
+            milk: {
+                name: "Milk",
+                image: "https://cdn.pixabay.com/photo/2017/07/05/15/41/milk-2474993_640.jpg",
+                conversions: {
+                    cup: 240,
+                    tbsp: 15,
+                    tsp: 5,
+                    g: 1.03,
+                    kg: 1030,
+                    oz: 28.35,
+                    lb: 453.6,
+                    ml: 1,
+                    l: 1000
+                }
+            }
+        };
+
+        // Common equivalents (standard conversions)
+        const standardEquivalents = [
+            { from: "1 cup", to: "16 tablespoons" },
+            { from: "1 tablespoon", to: "3 teaspoons" },
+            { from: "1 cup", to: "240 milliliters" },
+            { from: "1 pint", to: "2 cups" },
+            { from: "1 quart", to: "4 cups" },
+            { from: "1 gallon", to: "16 cups" },
+            { from: "1 ounce", to: "28.35 grams" },
+            { from: "1 pound", to: "16 ounces" }
+        ];
+
+        // DOM Elements
+        const ingredientSelect = document.getElementById('ingredient');
+        const ingredientImg = document.getElementById('ingredientImg');
+        const cookFromValue = document.getElementById('cookFromValue');
+        const cookFromUnit = document.getElementById('cookFromUnit');
+        const cookToValue = document.getElementById('cookToValue');
+        const cookToUnit = document.getElementById('cookToUnit');
+        const cookConvertBtn = document.getElementById('cookConvert');
+        const cookSwapBtn = document.getElementById('cookSwap');
+        const cookClearBtn = document.getElementById('cookClear');
+        const cookResult = document.getElementById('cookResult');
+        const cookDetails = document.getElementById('cookDetails');
+        const equivalentsList = document.getElementById('equivalents');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const toast = document.getElementById('toast');
+
+        // Initialize the converter
+        function initCookingConverter() {
+            setupEventListeners();
+            checkDarkModePreference();
+            updateIngredient();
+            loadStandardEquivalents();
+        }
+
+        // Update ingredient image and details
+        function updateIngredient() {
+            const ingredientId = ingredientSelect.value;
+            const ingredient = ingredients[ingredientId];
+            
+            ingredientImg.src = ingredient.image;
+            ingredientImg.alt = ingredient.name;
+            
+            // Set default "to" unit to grams for new ingredient
+            cookToUnit.value = 'g';
+            
+            // If there's a value, convert it
+            if (cookFromValue.value) {
+                convertCookingMeasurement();
+            }
+        }
+
+        // Convert cooking measurement
+        function convertCookingMeasurement() {
+            const ingredientId = ingredientSelect.value;
+            const ingredient = ingredients[ingredientId];
+            const fromValue = parseFloat(cookFromValue.value);
+            const fromUnit = cookFromUnit.value;
+            const toUnit = cookToUnit.value;
+
+            if (isNaN(fromValue)) {
+                showToast('Please enter a valid number');
+                return;
+            }
+
+            // Convert to grams first
+            const grams = fromValue * ingredient.conversions[fromUnit];
+            
+            // Then convert from grams to target unit
+            const result = grams / ingredient.conversions[toUnit];
+            
+            // Display results
+            cookToValue.value = result.toFixed(2);
+            cookResult.textContent = `${fromValue} ${fromUnit} = ${result.toFixed(2)} ${toUnit}`;
+            cookDetails.textContent = `${ingredient.name}: ${fromValue} ${fromUnit} → ${grams.toFixed(2)}g → ${result.toFixed(2)} ${toUnit}`;
+        }
+
+        // Swap units
+        function swapCookingUnits() {
+            const tempUnit = cookFromUnit.value;
+            const tempValue = cookFromValue.value;
+
+            cookFromUnit.value = cookToUnit.value;
+            cookToUnit.value = tempUnit;
+
+            if (cookToValue.value) {
+                cookFromValue.value = cookToValue.value;
+                convertCookingMeasurement();
+            } else if (tempValue) {
+                convertCookingMeasurement();
+            }
+        }
+
+        // Clear inputs
+        function clearCookingInputs() {
+            cookFromValue.value = '';
+            cookToValue.value = '';
+            cookResult.textContent = '0';
+            cookDetails.textContent = 'Select ingredient and units to see conversion';
+            showToast('Calculator cleared');
+        }
+
+        // Load standard equivalents
+        function loadStandardEquivalents() {
+            equivalentsList.innerHTML = '';
+            standardEquivalents.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'equivalent-item';
+                div.innerHTML = `
+                    <span>${item.from}</span>
+                    <span>${item.to}</span>
+                `;
+                equivalentsList.appendChild(div);
+            });
+        }
+
+        // Show toast notification
+        function showToast(message, duration = 3000) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        // Dark mode functionality
+        function checkDarkModePreference() {
+            if (localStorage.getItem('darkMode') === 'enabled' || 
+                (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        function toggleDarkMode() {
+            if (document.body.classList.contains('dark-mode')) {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            ingredientSelect.addEventListener('change', updateIngredient);
+            cookConvertBtn.addEventListener('click', convertCookingMeasurement);
+            cookSwapBtn.addEventListener('click', swapCookingUnits);
+            cookClearBtn.addEventListener('click', clearCookingInputs);
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
+            // Auto-convert when input changes
+            cookFromValue.addEventListener('input', function() {
+                if (cookFromValue.value) {
+                    convertCookingMeasurement();
+                }
+            });
+
+            // Convert when units change
+            cookFromUnit.addEventListener('change', function() {
+                if (cookFromValue.value) {
+                    convertCookingMeasurement();
+                }
+            });
+
+            cookToUnit.addEventListener('change', function() {
+                if (cookFromValue.value) {
+                    convertCookingMeasurement();
+                }
+            });
+
+            // Copy result on click
+            cookToValue.addEventListener('click', function() {
+                if (cookToValue.value) {
+                    navigator.clipboard.writeText(cookToValue.value);
+                    showToast('Result copied to clipboard!');
+                }
+            });
+        }
+
+        // Initialize the converter
+        document.addEventListener('DOMContentLoaded', initCookingConverter);
+    </script>
+</body>
+</html>

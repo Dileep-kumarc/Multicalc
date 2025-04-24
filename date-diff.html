@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate the exact time between any two dates">
+    <title>Date Difference Calculator - MultiCalc</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">MultiCalc</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="calculator-container">
+            <h1>Date Difference Calculator</h1>
+            <p class="calculator-description">Calculate the exact duration between any two dates with detailed breakdown</p>
+            
+            <div class="info-banner">
+                <img src="https://cdn-icons-png.flaticon.com/512/2693/2693507.png" alt="Date calculation illustration" class="calculator-icon">
+                <div class="info-text">
+                    <h2>How it works</h2>
+                    <p>Enter any two dates to calculate:</p>
+                    <ul>
+                        <li>Exact time difference in years, months, and days</li>
+                        <li>Total number of days between dates</li>
+                        <li>Detailed breakdown in different units</li>
+                        <li>Working days and weekends</li>
+                        <li>Additional time statistics</li>
+                    </ul>
+                </div>
+            </div>
+
+            <form id="dateDiffCalculator" class="calculator-form">
+                <div class="date-inputs">
+                    <div class="form-group start-date">
+                        <label for="startDate">Start Date:</label>
+                        <div class="date-select">
+                            <select id="startDay" required></select>
+                            <select id="startMonth" required></select>
+                            <select id="startYear" required></select>
+                        </div>
+                        <input type="date" id="startDate" class="date-fallback" required>
+                    </div>
+
+                    <div class="form-group end-date">
+                        <label for="endDate">End Date:</label>
+                        <div class="date-select">
+                            <select id="endDay" required></select>
+                            <select id="endMonth" required></select>
+                            <select id="endYear" required></select>
+                        </div>
+                        <input type="date" id="endDate" class="date-fallback" required>
+                        <button type="button" id="useToday" class="secondary-button">Use Today</button>
+                    </div>
+                </div>
+
+                <div class="date-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="excludeWeekends"> Exclude weekends from calculation
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="includeEndDate"> Include end date in calculation
+                    </label>
+                </div>
+              
+                <button type="submit" class="primary-button">Calculate Difference</button>
+            </form>
+
+            <div id="result" class="result-container" style="display: none;">
+                <h3>Time Between Dates:</h3>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span id="years" class="highlight">0</span>
+                        <label>Years</label>
+                    </div>
+                    <div class="result-item">
+                        <span id="months" class="highlight">0</span>
+                        <label>Months</label>
+                    </div>
+                    <div class="result-item">
+                        <span id="days" class="highlight">0</span>
+                        <label>Days</label>
+                    </div>
+                </div>
+
+                <div class="additional-info">
+                    <div class="info-section">
+                        <h4>Time Statistics</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Total Days:</label>
+                                <span id="totalDays">0</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Working Days:</label>
+                                <span id="workingDays">0</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Weekends:</label>
+                                <span id="weekends">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <h4>Alternative Units</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Total Hours:</label>
+                                <span id="totalHours">0</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Total Minutes:</label>
+                                <span id="totalMinutes">0</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Total Weeks:</label>
+                                <span id="totalWeeks">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="date-details">
+                        <h4>Date Information</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Start Day:</label>
+                                <span id="startDayOfWeek">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>End Day:</label>
+                                <span id="endDayOfWeek">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Period:</label>
+                                <span id="datePeriod">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="date-diff.js"></script>
+</body>
+</html>

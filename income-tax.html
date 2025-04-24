@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Calculate your income tax liability based on your income and deductions">
+  <title>Income Tax Calculator - MultiCalc</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    .calculator-container {
+      max-width: 700px;
+      margin: 60px auto;
+      background-color: #fff;
+      padding: 40px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #555;
+    }
+    .form-group {
+      margin: 20px 0;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 1rem;
+      background-color: #0a74da;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    #result {
+      margin-top: 25px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: green;
+    }
+    .tax-image {
+      margin-top: 30px;
+    }
+    .tax-image img {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .ad-container {
+      margin: 30px 0;
+    }
+    footer {
+      background-color: #0a74da;
+      color: #fff;
+      text-align: center;
+      padding: 20px 10px;
+      margin-top: 50px;
+    }
+    .footer-content ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-content ul li {
+      display: inline-block;
+      margin: 0 10px;
+    }
+    .footer-content ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">MultiCalc</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="calculator-container">
+      <h1>Income Tax Calculator</h1>
+      <p>Estimate your income tax liability based on your income and deductions</p>
+
+      <form id="taxForm">
+        <div class="form-group">
+          <label for="income">Annual Income ($):</label>
+          <input type="number" id="income" placeholder="Enter your total income" required />
+        </div>
+
+        <div class="form-group">
+          <label for="deductions">Deductions ($):</label>
+          <input type="number" id="deductions" placeholder="Enter your total deductions" required />
+        </div>
+
+        <button type="button" id="calculate">Calculate Tax</button>
+        <div id="result">Estimated Tax: -</div>
+      </form>
+
+      <div class="tax-image">
+        <img src="https://images.unsplash.com/photo-1588776814546-79b292b63a5f" alt="Tax calculation illustration">
+      </div>
+
+      <div class="ad-container">
+        <!-- AdSense Ad Unit -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-placeholder"
+             data-ad-slot="placeholder"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Use</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="footer-bottom">
+        <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <!-- Income Tax Calculator Script -->
+  <script>
+    function calculateIncomeTax(income, deductions) {
+      const taxableIncome = income - deductions;
+      let tax = 0;
+
+      if (taxableIncome <= 10000) {
+        tax = taxableIncome * 0.10;
+      } else if (taxableIncome <= 40000) {
+        tax = 1000 + (taxableIncome - 10000) * 0.15;
+      } else if (taxableIncome <= 85000) {
+        tax = 5500 + (taxableIncome - 40000) * 0.25;
+      } else {
+        tax = 16750 + (taxableIncome - 85000) * 0.35;
+      }
+
+      return tax.toFixed(2);
+    }
+
+    function updateResults() {
+      const income = parseFloat(document.getElementById('income').value);
+      const deductions = parseFloat(document.getElementById('deductions').value);
+      if (isNaN(income) || isNaN(deductions)) {
+        document.getElementById('result').innerText = 'Please enter valid income and deductions.';
+        return;
+      }
+      const tax = calculateIncomeTax(income, deductions);
+      document.getElementById('result').innerText = `Estimated Tax: $${tax}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('calculate').addEventListener('click', updateResults);
+    });
+  </script>
+</body>
+</html>

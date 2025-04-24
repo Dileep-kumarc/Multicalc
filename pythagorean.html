@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate the missing side of a right triangle using the Pythagorean Theorem">
+    <title>Pythagorean Theorem Calculator - MultiCalc</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.3/katex.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.3/katex.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.3/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">MultiCalc</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="calculator-container">
+            <h1>Pythagorean Theorem Calculator</h1>
+            <p>Calculate the missing side of a right triangle using the Pythagorean Theorem: a² + b² = c²</p>
+            
+            <div class="ad-container">
+                <!-- AdSense Ad Unit -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-placeholder"
+                    data-ad-slot="placeholder"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+            </div>
+
+            <div class="triangle-diagram">
+                <svg viewBox="0 0 300 200" class="pythagorean-diagram">
+                    <polygon points="50,150 250,150 50,50" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <rect x="50" y="130" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1"/>
+                    <text x="150" y="170" class="diagram-label">a (base)</text>
+                    <text x="25" y="100" class="diagram-label">b (height)</text>
+                    <text x="140" y="90" class="diagram-label">c (hypotenuse)</text>
+                    <line x1="50" y1="150" x2="250" y2="150" stroke="currentColor" stroke-width="2" stroke-dasharray="5,5"/>
+                    <line x1="50" y1="150" x2="50" y2="50" stroke="currentColor" stroke-width="2" stroke-dasharray="5,5"/>
+                    <line x1="50" y1="50" x2="250" y2="150" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </div>
+
+            <form id="pythagoreanCalculator" class="calculator-form">
+                <div class="form-group">
+                    <label for="sideToFind">Side to Find:</label>
+                    <select id="sideToFind" required>
+                        <option value="c">Hypotenuse (c)</option>
+                        <option value="a">Base (a)</option>
+                        <option value="b">Height (b)</option>
+                    </select>
+                </div>
+
+                <div id="inputA" class="form-group">
+                    <label for="sideA">Side a (base):</label>
+                    <div class="input-group">
+                        <input type="number" id="sideA" min="0.1" step="any" required>
+                        <select id="unitA" class="unit-select">
+                            <option value="mm">mm</option>
+                            <option value="cm">cm</option>
+                            <option value="m" selected>m</option>
+                            <option value="km">km</option>
+                            <option value="in">in</option>
+                            <option value="ft">ft</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="inputB" class="form-group">
+                    <label for="sideB">Side b (height):</label>
+                    <div class="input-group">
+                        <input type="number" id="sideB" min="0.1" step="any" required>
+                        <select id="unitB" class="unit-select">
+                            <option value="mm">mm</option>
+                            <option value="cm">cm</option>
+                            <option value="m" selected>m</option>
+                            <option value="km">km</option>
+                            <option value="in">in</option>
+                            <option value="ft">ft</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="inputC" class="form-group" style="display: none;">
+                    <label for="sideC">Side c (hypotenuse):</label>
+                    <div class="input-group">
+                        <input type="number" id="sideC" min="0.1" step="any">
+                        <select id="unitC" class="unit-select">
+                            <option value="mm">mm</option>
+                            <option value="cm">cm</option>
+                            <option value="m" selected>m</option>
+                            <option value="km">km</option>
+                            <option value="in">in</option>
+                            <option value="ft">ft</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="calculate-btn">Calculate</button>
+            </form>
+
+            <div id="result" class="result-container">
+                <h2>Result</h2>
+                <div id="resultValue" class="result-value"></div>
+                <div id="calculation" class="calculation-steps"></div>
+            </div>
+
+            <div class="explanation-container">
+                <h2>About the Pythagorean Theorem</h2>
+                <p>The Pythagorean Theorem states that in a right triangle, the square of the length of the hypotenuse (c) is equal to the sum of the squares of the other two sides (a and b).</p>
+                <div class="formula">
+                    <p>a² + b² = c²</p>
+                </div>
+                <p>This theorem is named after the ancient Greek mathematician Pythagoras and is one of the fundamental relationships in Euclidean geometry.</p>
+                
+                <h3>How to use this calculator:</h3>
+                <ol>
+                    <li>Select which side of the triangle you want to calculate</li>
+                    <li>Enter the values for the other two sides</li>
+                    <li>Click "Calculate" to find the missing side</li>
+                </ol>
+                
+                <h3>Formulas used:</h3>
+                <ul>
+                    <li>To find the hypotenuse (c): c = √(a² + b²)</li>
+                    <li>To find a leg (a or b): a = √(c² - b²) or b = √(c² - a²)</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="pythagorean.js"></script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert between different distance units">
+    <title>Distance Converter - MultiCalc</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Add these new styles to your existing CSS */
+        
+        .distance-visualization {
+            width: 100%;
+            height: 100px;
+            background-color: #f0f0f0;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .distance-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: width 0.5s ease;
+        }
+        
+        .distance-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+        
+        .unit-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .comparison-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+        
+        .comparison-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .comparison-card p {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        /* Dark mode adjustments */
+        body.dark-mode .distance-visualization {
+            background-color: #2d2d2d;
+        }
+        
+        body.dark-mode .comparison-card {
+            background-color: #1e1e1e;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">MultiCalc</a>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="content-container">
+            <h1>Distance Converter</h1>
+            <p class="calculator-description">Convert between different distance units like kilometers, miles, meters, feet, and more.</p>
+
+            <form id="distanceConverter" class="calculator-form">
+                <div class="conversion-container">
+                    <div class="form-group">
+                        <label for="fromValue">From:</label>
+                        <div class="input-group">
+                            <input type="number" id="fromValue" required min="0" step="any" placeholder="Enter value">
+                            <select id="fromUnit">
+                                <option value="mm">Millimeters (mm)</option>
+                                <option value="cm">Centimeters (cm)</option>
+                                <option value="m">Meters (m)</option>
+                                <option value="km">Kilometers (km)</option>
+                                <option value="in">Inches (in)</option>
+                                <option value="ft">Feet (ft)</option>
+                                <option value="yd">Yards (yd)</option>
+                                <option value="mi">Miles (mi)</option>
+                                <option value="nmi">Nautical Miles (nmi)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="toValue">To:</label>
+                        <div class="input-group">
+                            <input type="number" id="toValue" readonly placeholder="Result">
+                            <select id="toUnit">
+                                <option value="mm">Millimeters (mm)</option>
+                                <option value="cm">Centimeters (cm)</option>
+                                <option value="m">Meters (m)</option>
+                                <option value="km">Kilometers (km)</option>
+                                <option value="in">Inches (in)</option>
+                                <option value="ft">Feet (ft)</option>
+                                <option value="yd">Yards (yd)</option>
+                                <option value="mi">Miles (mi)</option>
+                                <option value="nmi">Nautical Miles (nmi)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" id="convert" class="primary-button">
+                        <i class="fas fa-exchange-alt"></i> Convert
+                    </button>
+                    <button type="button" id="swap" class="secondary-button">
+                        <i class="fas fa-random"></i> Swap
+                    </button>
+                    <button type="button" id="clear" class="secondary-button">
+                        <i class="fas fa-trash-alt"></i> Clear
+                    </button>
+                </div>
+            </form>
+
+            <div class="distance-visualization">
+                <div class="distance-bar" id="distanceBar"></div>
+                <div class="distance-labels">
+                    <span id="fromLabel">0 mm</span>
+                    <span id="toLabel">0 mm</span>
+                </div>
+            </div>
+
+            <div class="result-container">
+                <div id="result" class="result">0</div>
+                <div id="formula" class="formula">Select units to see conversion formula</div>
+            </div>
+
+            <div class="unit-comparison" id="unitComparison">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <div class="info-section">
+                <h2><i class="fas fa-ruler-combined"></i> Distance Comparisons</h2>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <i class="fas fa-mountain"></i>
+                        <h3>Mountain Heights</h3>
+                        <p>Mount Everest is 8,848 meters (29,029 ft) tall - about 5.5 miles straight up!</p>
+                    </div>
+                    <div class="tip-card">
+                        <i class="fas fa-running"></i>
+                        <h3>Marathon Distance</h3>
+                        <p>A marathon is 42.195 kilometers (26.2 miles) - originally based on the distance from Marathon to Athens.</p>
+                    </div>
+                    <div class="tip-card">
+                        <i class="fas fa-space-shuttle"></i>
+                        <h3>Space Distances</h3>
+                        <p>The International Space Station orbits about 400 km (250 miles) above Earth's surface.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>MultiCalc</h4>
+                    <p>Your comprehensive calculation solution for everyday needs.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Calculators</h4>
+                    <ul>
+                        <li><a href="unit-converter.html">Unit Converter</a></li>
+                        <li><a href="fuel-calculator.html">Fuel Calculator</a></li>
+                        <li><a href="distance-converter.html">Distance Converter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved. | Version 2.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Conversion factors (to meters)
+        const conversionFactors = {
+            mm: 0.001,
+            cm: 0.01,
+            m: 1,
+            km: 1000,
+            in: 0.0254,
+            ft: 0.3048,
+            yd: 0.9144,
+            mi: 1609.34,
+            nmi: 1852
+        };
+
+        // Unit names for display
+        const unitNames = {
+            mm: "Millimeters",
+            cm: "Centimeters",
+            m: "Meters",
+            km: "Kilometers",
+            in: "Inches",
+            ft: "Feet",
+            yd: "Yards",
+            mi: "Miles",
+            nmi: "Nautical Miles"
+        };
+
+        // Common comparisons
+        const commonComparisons = [
+            { name: "Football Field", meters: 91.44 },
+            { name: "Eiffel Tower", meters: 330 },
+            { name: "Average Human Height", meters: 1.7 },
+            { name: "Blue Whale Length", meters: 30 }
+        ];
+
+        // DOM Elements
+        const fromValueInput = document.getElementById('fromValue');
+        const fromUnitSelect = document.getElementById('fromUnit');
+        const toValueInput = document.getElementById('toValue');
+        const toUnitSelect = document.getElementById('toUnit');
+        const convertButton = document.getElementById('convert');
+        const swapButton = document.getElementById('swap');
+        const clearButton = document.getElementById('clear');
+        const resultDiv = document.getElementById('result');
+        const formulaDiv = document.getElementById('formula');
+        const distanceBar = document.getElementById('distanceBar');
+        const fromLabel = document.getElementById('fromLabel');
+        const toLabel = document.getElementById('toLabel');
+        const unitComparisonDiv = document.getElementById('unitComparison');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const toast = document.getElementById('toast');
+
+        // Initialize the converter
+        function initDistanceConverter() {
+            setupEventListeners();
+            checkDarkModePreference();
+            loadCommonComparisons();
+        }
+
+        // Convert distance
+        function convertDistance() {
+            const fromValue = parseFloat(fromValueInput.value);
+            const fromUnit = fromUnitSelect.value;
+            const toUnit = toUnitSelect.value;
+
+            if (isNaN(fromValue)) {
+                showToast('Please enter a valid number');
+                return;
+            }
+
+            // Convert to meters first
+            const valueInMeters = fromValue * conversionFactors[fromUnit];
+            // Then convert to target unit
+            const result = valueInMeters / conversionFactors[toUnit];
+
+            // Display results
+            toValueInput.value = result.toFixed(6);
+            resultDiv.textContent = `${fromValue} ${fromUnit} = ${result.toFixed(6)} ${toUnit}`;
+            formulaDiv.textContent = `(${fromValue} ${fromUnit} × ${conversionFactors[fromUnit]}m/${fromUnit}) ÷ ${conversionFactors[toUnit]}m/${toUnit} = ${result.toFixed(6)} ${toUnit}`;
+
+            // Update visualization
+            updateVisualization(fromValue, fromUnit, result, toUnit);
+            updateCommonComparisons(fromValue, fromUnit);
+        }
+
+        // Update the distance visualization
+        function updateVisualization(fromValue, fromUnit, toValue, toUnit) {
+            // Convert both values to meters for comparison
+            const fromMeters = fromValue * conversionFactors[fromUnit];
+            const toMeters = toValue * conversionFactors[toUnit];
+            
+            // The larger value will be our 100% width
+            const maxValue = Math.max(fromMeters, toMeters);
+            
+            // Calculate percentages
+            const fromPercent = (fromMeters / maxValue) * 100;
+            const toPercent = (toMeters / maxValue) * 100;
+            
+            // Animate the bar (from 0 to fromPercent)
+            distanceBar.style.width = '0';
+            setTimeout(() => {
+                distanceBar.style.width = `${fromPercent}%`;
+            }, 10);
+            
+            // Update labels
+            fromLabel.textContent = `${fromValue} ${fromUnit}`;
+            toLabel.textContent = `${toValue.toFixed(2)} ${toUnit}`;
+        }
+
+        // Load common comparisons
+        function loadCommonComparisons() {
+            commonComparisons.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'comparison-card';
+                card.innerHTML = `
+                    <h4>${item.name}</h4>
+                    <p id="comp-${item.name.replace(/\s+/g, '-')}">0 ${fromUnitSelect.value}</p>
+                `;
+                unitComparisonDiv.appendChild(card);
+            });
+        }
+
+        // Update common comparisons
+        function updateCommonComparisons(value, unit) {
+            commonComparisons.forEach(item => {
+                const element = document.getElementById(`comp-${item.name.replace(/\s+/g, '-')}`);
+                if (element) {
+                    // Convert the comparison item to the current unit
+                    const convertedValue = (item.meters / conversionFactors[unit]).toFixed(2);
+                    element.textContent = `${convertedValue} ${unit}`;
+                }
+            });
+        }
+
+        // Swap units
+        function swapUnits() {
+            const tempUnit = fromUnitSelect.value;
+            const tempValue = fromValueInput.value;
+
+            fromUnitSelect.value = toUnitSelect.value;
+            toUnitSelect.value = tempUnit;
+
+            if (toValueInput.value) {
+                fromValueInput.value = toValueInput.value;
+                convertDistance();
+            } else if (tempValue) {
+                convertDistance();
+            }
+        }
+
+        // Clear inputs
+        function clearInputs() {
+            fromValueInput.value = '';
+            toValueInput.value = '';
+            resultDiv.textContent = '0';
+            formulaDiv.textContent = 'Select units to see conversion formula';
+            distanceBar.style.width = '0';
+            fromLabel.textContent = '0 mm';
+            toLabel.textContent = '0 mm';
+            showToast('Calculator cleared');
+        }
+
+        // Show toast notification
+        function showToast(message, duration = 3000) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        // Dark mode functionality
+        function checkDarkModePreference() {
+            if (localStorage.getItem('darkMode') === 'enabled' || 
+                (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        function toggleDarkMode() {
+            if (document.body.classList.contains('dark-mode')) {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            convertButton.addEventListener('click', convertDistance);
+            swapButton.addEventListener('click', swapUnits);
+            clearButton.addEventListener('click', clearInputs);
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
+            // Auto-convert when input changes
+            fromValueInput.addEventListener('input', function() {
+                if (fromValueInput.value) {
+                    convertDistance();
+                }
+            });
+
+            // Convert when units change
+            fromUnitSelect.addEventListener('change', function() {
+                if (fromValueInput.value) {
+                    convertDistance();
+                }
+            });
+
+            toUnitSelect.addEventListener('change', function() {
+                if (fromValueInput.value) {
+                    convertDistance();
+                }
+            });
+
+            // Copy result on click
+            toValueInput.addEventListener('click', function() {
+                if (toValueInput.value) {
+                    navigator.clipboard.writeText(toValueInput.value);
+                    showToast('Result copied to clipboard!');
+                }
+            });
+        }
+
+        // Initialize the converter
+        document.addEventListener('DOMContentLoaded', initDistanceConverter);
+    </script>
+</body>
+</html>

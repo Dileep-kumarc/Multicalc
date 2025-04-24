@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert between different time zones">
+    <title>Timezone Converter - MultiCalc</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Add these new styles to your existing CSS */
+        
+        /* Timezone specific styles */
+        .timezone-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .timezone-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .timezone-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .time-display {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0.5rem 0;
+        }
+        
+        .date-display {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+        
+        .timezone-select {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .timezone-map {
+            width: 100%;
+            height: 200px;
+            background-color: #f0f0f0;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-color);
+        }
+        
+        .time-difference {
+            text-align: center;
+            margin: 1.5rem 0;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .common-timezones {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .common-timezone {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            box-shadow: var(--box-shadow);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .common-timezone:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .common-timezone h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .common-timezone p {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+        
+        /* Dark mode adjustments */
+        body.dark-mode .timezone-card,
+        body.dark-mode .common-timezone {
+            background-color: #1e1e1e;
+        }
+        
+        body.dark-mode .timezone-map {
+            background-color: #2d2d2d;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .timezone-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">MultiCalc</a>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="content-container">
+            <h1>Timezone Converter</h1>
+            <p class="calculator-description">Convert between different time zones and see the current time around the world.</p>
+
+            <div class="timezone-container">
+                <div class="timezone-card">
+                    <h3><i class="fas fa-clock"></i> From Timezone</h3>
+                    <div class="time-display" id="fromTime">12:00:00 PM</div>
+                    <div class="date-display" id="fromDate">Monday, January 1, 2023</div>
+                    <select class="timezone-select" id="fromTimezone">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                    <div class="timezone-map" id="fromMap">
+                        <i class="fas fa-globe-americas fa-3x"></i>
+                    </div>
+                </div>
+
+                <div class="timezone-card">
+                    <h3><i class="fas fa-clock"></i> To Timezone</h3>
+                    <div class="time-display" id="toTime">12:00:00 PM</div>
+                    <div class="date-display" id="toDate">Monday, January 1, 2023</div>
+                    <select class="timezone-select" id="toTimezone">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                    <div class="timezone-map" id="toMap">
+                        <i class="fas fa-globe-asia fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-difference" id="timeDifference">
+                Same time
+            </div>
+
+            <div class="button-group">
+                <button type="button" id="swapTimezones" class="primary-button">
+                    <i class="fas fa-exchange-alt"></i> Swap Timezones
+                </button>
+                <button type="button" id="setCurrent" class="secondary-button">
+                    <i class="fas fa-location-arrow"></i> Use My Timezone
+                </button>
+            </div>
+
+            <div class="info-section">
+                <h2><i class="fas fa-list"></i> Common Timezones</h2>
+                <div class="common-timezones" id="commonTimezones">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2><i class="fas fa-lightbulb"></i> Timezone Tips</h2>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <i class="fas fa-business-time"></i>
+                        <h3>Business Hours</h3>
+                        <p>Check time differences before scheduling international meetings to ensure reasonable hours for all participants.</p>
+                    </div>
+                    <div class="tip-card">
+                        <i class="fas fa-plane"></i>
+                        <h3>Travel Planning</h3>
+                        <p>When traveling across timezones, gradually adjust your sleep schedule a few days before departure.</p>
+                    </div>
+                    <div class="tip-card">
+                        <i class="fas fa-sun"></i>
+                        <h3>Daylight Saving</h3>
+                        <p>Remember that not all regions observe daylight saving time, and transition dates may vary.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>MultiCalc</h4>
+                    <p>Your comprehensive calculation solution for everyday needs.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Calculators</h4>
+                    <ul>
+                        <li><a href="unit.html">Unit Converter</a></li>
+                        <li><a href="fuel-calculator.html">Fuel Calculator</a></li>
+                        <li><a href="timezone.html">Timezone Converter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved. | Version 2.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Timezone data - common timezones with their display names
+        const timezones = [
+            { id: 'Pacific/Midway', name: 'Midway (UTC-11:00)' },
+            { id: 'Pacific/Honolulu', name: 'Hawaii (UTC-10:00)' },
+            { id: 'America/Anchorage', name: 'Alaska (UTC-09:00)' },
+            { id: 'America/Los_Angeles', name: 'Pacific Time (UTC-08:00)' },
+            { id: 'America/Denver', name: 'Mountain Time (UTC-07:00)' },
+            { id: 'America/Chicago', name: 'Central Time (UTC-06:00)' },
+            { id: 'America/New_York', name: 'Eastern Time (UTC-05:00)' },
+            { id: 'America/Halifax', name: 'Atlantic Time (UTC-04:00)' },
+            { id: 'America/St_Johns', name: 'Newfoundland (UTC-03:30)' },
+            { id: 'America/Sao_Paulo', name: 'Brasilia (UTC-03:00)' },
+            { id: 'Atlantic/South_Georgia', name: 'South Georgia (UTC-02:00)' },
+            { id: 'Atlantic/Azores', name: 'Azores (UTC-01:00)' },
+            { id: 'UTC', name: 'UTC (UTC±00:00)' },
+            { id: 'Europe/London', name: 'London (UTC+00:00)' },
+            { id: 'Europe/Paris', name: 'Paris (UTC+01:00)' },
+            { id: 'Europe/Athens', name: 'Athens (UTC+02:00)' },
+            { id: 'Europe/Moscow', name: 'Moscow (UTC+03:00)' },
+            { id: 'Asia/Dubai', name: 'Dubai (UTC+04:00)' },
+            { id: 'Asia/Karachi', name: 'Karachi (UTC+05:00)' },
+            { id: 'Asia/Dhaka', name: 'Dhaka (UTC+06:00)' },
+            { id: 'Asia/Bangkok', name: 'Bangkok (UTC+07:00)' },
+            { id: 'Asia/Shanghai', name: 'Shanghai (UTC+08:00)' },
+            { id: 'Asia/Tokyo', name: 'Tokyo (UTC+09:00)' },
+            { id: 'Australia/Sydney', name: 'Sydney (UTC+10:00)' },
+            { id: 'Pacific/Noumea', name: 'New Caledonia (UTC+11:00)' },
+            { id: 'Pacific/Auckland', name: 'Auckland (UTC+12:00)' },
+            { id: 'Pacific/Tongatapu', name: 'Tongatapu (UTC+13:00)' }
+        ];
+
+        // Common timezones for quick selection
+        const commonTimezones = [
+            'America/New_York',
+            'America/Chicago',
+            'America/Denver',
+            'America/Los_Angeles',
+            'Europe/London',
+            'Europe/Paris',
+            'Asia/Tokyo',
+            'Asia/Shanghai',
+            'Australia/Sydney'
+        ];
+
+        // DOM Elements
+        const fromTimezoneSelect = document.getElementById('fromTimezone');
+        const toTimezoneSelect = document.getElementById('toTimezone');
+        const fromTimeDisplay = document.getElementById('fromTime');
+        const toTimeDisplay = document.getElementById('toTime');
+        const fromDateDisplay = document.getElementById('fromDate');
+        const toDateDisplay = document.getElementById('toDate');
+        const timeDifferenceDisplay = document.getElementById('timeDifference');
+        const swapButton = document.getElementById('swapTimezones');
+        const setCurrentButton = document.getElementById('setCurrent');
+        const commonTimezonesContainer = document.getElementById('commonTimezones');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const toast = document.getElementById('toast');
+
+        // Initialize the converter
+        function initTimezoneConverter() {
+            populateTimezoneSelects();
+            loadCommonTimezones();
+            setupEventListeners();
+            checkDarkModePreference();
+            
+            // Set default timezones
+            const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            setTimezone('fromTimezone', userTimezone);
+            setTimezone('toTimezone', 'Europe/London');
+            
+            // Start the clock
+            updateTimes();
+            setInterval(updateTimes, 1000);
+        }
+
+        // Populate timezone selects
+        function populateTimezoneSelects() {
+            timezones.forEach(tz => {
+                const option1 = document.createElement('option');
+                option1.value = tz.id;
+                option1.textContent = tz.name;
+                fromTimezoneSelect.appendChild(option1);
+                
+                const option2 = document.createElement('option');
+                option2.value = tz.id;
+                option2.textContent = tz.name;
+                toTimezoneSelect.appendChild(option2);
+            });
+        }
+
+        // Load common timezones
+        function loadCommonTimezones() {
+            commonTimezones.forEach(tzId => {
+                const tzData = timezones.find(tz => tz.id === tzId);
+                if (tzData) {
+                    const tzElement = document.createElement('div');
+                    tzElement.className = 'common-timezone';
+                    tzElement.innerHTML = `
+                        <h4>${tzData.name.split(' (')[0]}</h4>
+                        <p>${tzData.name.split(' (')[1].replace(')', '')}</p>
+                    `;
+                    tzElement.addEventListener('click', () => {
+                        setTimezone('toTimezone', tzId);
+                        updateTimes();
+                        showToast(`Set to ${tzData.name}`);
+                    });
+                    commonTimezonesContainer.appendChild(tzElement);
+                }
+            });
+        }
+
+        // Set a timezone select value
+        function setTimezone(selectId, timezoneId) {
+            const select = document.getElementById(selectId);
+            const option = Array.from(select.options).find(opt => opt.value === timezoneId);
+            if (option) {
+                select.value = timezoneId;
+            }
+        }
+
+        // Update the displayed times
+        function updateTimes() {
+            const fromTimezone = fromTimezoneSelect.value;
+            const toTimezone = toTimezoneSelect.value;
+            
+            // Get current times
+            const now = new Date();
+            const fromTime = new Date(now.toLocaleString('en-US', { timeZone: fromTimezone }));
+            const toTime = new Date(now.toLocaleString('en-US', { timeZone: toTimezone }));
+            
+            // Format times
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            
+            fromTimeDisplay.textContent = fromTime.toLocaleTimeString('en-US', timeOptions);
+            toTimeDisplay.textContent = toTime.toLocaleTimeString('en-US', timeOptions);
+            fromDateDisplay.textContent = fromTime.toLocaleDateString('en-US', dateOptions);
+            toDateDisplay.textContent = toTime.toLocaleDateString('en-US', dateOptions);
+            
+            // Calculate and display time difference
+            const diffHours = (toTime.getTime() - fromTime.getTime()) / (1000 * 60 * 60);
+            if (diffHours === 0) {
+                timeDifferenceDisplay.textContent = 'Same time';
+            } else {
+                const absDiff = Math.abs(diffHours);
+                const hours = Math.floor(absDiff);
+                const minutes = Math.floor((absDiff - hours) * 60);
+                const direction = diffHours > 0 ? 'ahead' : 'behind';
+                
+                timeDifferenceDisplay.textContent = `${hours}h ${minutes}m ${direction}`;
+            }
+        }
+
+        // Swap timezones
+        function swapTimezones() {
+            const temp = fromTimezoneSelect.value;
+            fromTimezoneSelect.value = toTimezoneSelect.value;
+            toTimezoneSelect.value = temp;
+            updateTimes();
+            showToast('Timezones swapped');
+        }
+
+        // Set from timezone to user's current timezone
+        function setToCurrentTimezone() {
+            const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            setTimezone('fromTimezone', userTimezone);
+            updateTimes();
+            showToast('Set to your current timezone');
+        }
+
+        // Show toast notification
+        function showToast(message, duration = 3000) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        // Dark mode functionality
+        function checkDarkModePreference() {
+            if (localStorage.getItem('darkMode') === 'enabled' || 
+                (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        function toggleDarkMode() {
+            if (document.body.classList.contains('dark-mode')) {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            fromTimezoneSelect.addEventListener('change', updateTimes);
+            toTimezoneSelect.addEventListener('change', updateTimes);
+            swapButton.addEventListener('click', swapTimezones);
+            setCurrentButton.addEventListener('click', setToCurrentTimezone);
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+        }
+
+        // Initialize the converter when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initTimezoneConverter);
+    </script>
+</body>
+</html>

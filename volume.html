@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate volume of 3D shapes like cube, sphere, cylinder, cone, and more">
+    <title>Volume Calculator - MultiCalc</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">MultiCalc</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="calculator-container">
+        <h1>Volume Calculator</h1>
+        <p class="description">Calculate the volume of various 3D shapes. Select a shape and enter the required measurements.</p>
+
+        <div class="shape-buttons">
+            <button class="shape-btn active" data-shape="cube">Cube/Cuboid</button>
+            <button class="shape-btn" data-shape="sphere">Sphere</button>
+            <button class="shape-btn" data-shape="cylinder">Cylinder</button>
+            <button class="shape-btn" data-shape="cone">Cone</button>
+            <button class="shape-btn" data-shape="pyramid">Pyramid</button>
+            <button class="shape-btn" data-shape="prism">Triangular Prism</button>
+        </div>
+
+        <div class="calculators">
+            <!-- Cube/Cuboid Calculator -->
+            <form id="cubeCalculator" class="shape-form active">
+                <h2>Cube/Cuboid Volume</h2>
+                <div class="input-group">
+                    <label for="cubeLength">Length:</label>
+                    <input type="number" id="cubeLength" required step="any">
+                </div>
+                <div class="input-group">
+                    <label for="cubeWidth">Width:</label>
+                    <input type="number" id="cubeWidth" required step="any">
+                </div>
+                <div class="input-group">
+                    <label for="cubeHeight">Height:</label>
+                    <input type="number" id="cubeHeight" required step="any">
+                </div>
+                <div class="input-group">
+                    <label for="cubeUnit">Unit:</label>
+                    <select id="cubeUnit">
+                        <option value="mm">Millimeters (mm)</option>
+                        <option value="cm" selected>Centimeters (cm)</option>
+                        <option value="m">Meters (m)</option>
+                        <option value="in">Inches (in)</option>
+                        <option value="ft">Feet (ft)</option>
+                    </select>
+                </div>
+                <button type="submit">Calculate</button>
+            </form>
+
+            <!-- Sphere Calculator -->
+            <form id="sphereCalculator" class="shape-form">
+                <h2>Sphere Volume</h2>
+                <div class="input-group">
+                    <label for="sphereRadius">Radius:</label>
+                    <input type="number" id="sphereRadius" required step="any">
+                </div>
+                <div class="input-group">
+                    <label for="sphereUnit">Unit:</label>
+                    <select id="sphereUnit">
+                        <option value="mm">Millimeters (mm)</option>
+                        <option value="cm" selected>Centimeters (cm)</option>
+                        <option value="m">Meters (m)</option>
+                        <option value="in">Inches (in)</option>
+                        <option value="ft">Feet (ft)</option>
+                    </select>
+                </div>
+                <button type="submit">Calculate</button>
+            </form>
+
+            <!-- Cylinder Calculator -->
+            <form id="cylinderCalculator" class="shape-form">
+                <h2>Cylinder Volume</h2>
+                <div class="input-group">
+                    <label for="cylinderRadius">Radius:</label>
+                    <input type="number" id="cylinderRadius" required step="any">
+                </div>
+                <div class="input-group">
+                    <label for="cylinderHeight">Height:</label>
+                    <input type="number" id="cylinderHeight" required step="any">
+                </div>
+                <div class="input-group">
+                    <label for="cylinderUnit">Unit:</label>
+                    <select id="cylinderUnit">
+                        <option value="mm">Millimeters (mm)</option>
+                        <option value="cm" selected>Centimeters (cm)</option>
+                        <option value="m">Meters (m)</option>
+                        <option value="in">Inches (in)</option>
+                        <option value="ft">Feet (ft)</option>
+                    </select>
+                </div>
+                <button type="submit">Calculate</button>
+            </form>
+
+
+
+        <!-- Cone Calculator -->
+        <form id="coneCalculator" class="shape-form">
+            <h2>Cone Volume</h2>
+            <div class="input-group">
+                <label for="coneRadius">Radius:</label>
+                <input type="number" id="coneRadius" required step="any">
+            </div>
+            <div class="input-group">
+                <label for="coneHeight">Height:</label>
+                <input type="number" id="coneHeight" required step="any">
+            </div>
+            <div class="input-group">
+                <label for="coneUnit">Unit:</label>
+                <select id="coneUnit">
+                    <option value="mm">Millimeters (mm)</option>
+                    <option value="cm" selected>Centimeters (cm)</option>
+                    <option value="m">Meters (m)</option>
+                    <option value="in">Inches (in)</option>
+                    <option value="ft">Feet (ft)</option>
+                </select>
+            </div>
+            <button type="submit">Calculate</button>
+        </form>
+
+        <!-- Pyramid Calculator -->
+        <form id="pyramidCalculator" class="shape-form">
+            <h2>Pyramid Volume</h2>
+            <div class="input-group">
+                <label for="pyramidLength">Base Length:</label>
+                <input type="number" id="pyramidLength" required step="any">
+            </div>
+            <div class="input-group">
+                <label for="pyramidWidth">Base Width:</label>
+                <input type="number" id="pyramidWidth" required step="any">
+            </div>
+            <div class="input-group">
+                <label for="pyramidHeight">Height:</label>
+                <input type="number" id="pyramidHeight" required step="any">
+            </div>
+            <div class="input-group">
+                <label for="pyramidUnit">Unit:</label>
+                <select id="pyramidUnit">
+                    <option value="mm">Millimeters (mm)</option>
+                    <option value="cm" selected>Centimeters (cm)</option>
+                    <option value="m">Meters (m)</option>
+                    <option value="in">Inches (in)</option>
+                    <option value="ft">Feet (ft)</option>
+                </select>
+            </div>
+            <button type="submit">Calculate</button>
+        </form>
+
+        <!-- Triangular Prism Calculator -->
+        <form id="prismCalculator" class="shape-form">
+            <h2>Triangular Prism Volume</h2>
+            <div class="input-group">
+                <label for="prismBase">Base:</label>
+                <input type="number" id="prismBase" required step="any">
+            </div>
+            <div class="input-group">
+                <label for="prismHeight">Height:</label>
+                <input type="number" id="prismHeight" required step="any">
+            </div>
+            <div class="input-group">
+                <label for="prismLength">Length:</label>
+                <input type="number" id="prismLength" required step="any">
+            </div>
+            <div class="input-group">
+                <label for="prismUnit">Unit:</label>
+                <select id="prismUnit">
+                    <option value="mm">Millimeters (mm)</option>
+                    <option value="cm" selected>Centimeters (cm)</option>
+                    <option value="m">Meters (m)</option>
+                    <option value="in">Inches (in)</option>
+                    <option value="ft">Feet (ft)</option>
+                </select>
+            </div>
+            <button type="submit">Calculate</button>
+        </form>
+
+        <!-- Results Section -->
+        <div id="result" class="result-container" style="display: none;">
+            <div class="volume-result">
+                <span id="volumeValue" class="result-value">0</span>
+                <span id="volumeUnit">cm³</span>
+            </div>
+            <div class="formula-container">
+                <h3>Formula:</h3>
+                <div id="formula" class="formula"></div>
+            </div>
+            <div class="steps-container">
+                <h3>Calculation Steps:</h3>
+                <div id="steps"></div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="volume.js"></script>
+</body>
+</html>

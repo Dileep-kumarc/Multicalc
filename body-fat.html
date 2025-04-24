@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your body fat percentage using different methods">
+    <title>Body Fat Calculator - MultiCalc</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">MultiCalc</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="calculator-container">
+            <h1>Body Fat Calculator</h1>
+            <p>Calculate your body fat percentage using the Navy method formula</p>
+
+            <div class="ad-container">
+                <!-- AdSense Ad Unit -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-placeholder"
+                    data-ad-slot="placeholder"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+            </div>
+
+            <form id="bodyFatCalculator" class="calculator-form">
+                <div class="unit-toggle">
+                    <label>
+                        <input type="radio" name="unit" value="metric" checked>
+                        Metric (cm/kg)
+                    </label>
+                    <label>
+                        <input type="radio" name="unit" value="imperial">
+                        Imperial (inches/lbs)
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" required>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="height">Height:</label>
+                    <div class="input-group">
+                        <input type="number" id="height" required min="1" step="0.01">
+                        <span class="unit-label" id="heightUnit">cm</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="weight">Weight:</label>
+                    <div class="input-group">
+                        <input type="number" id="weight" required min="1" step="0.01">
+                        <span class="unit-label" id="weightUnit">kg</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="neck">Neck Circumference:</label>
+                    <div class="input-group">
+                        <input type="number" id="neck" required min="1" step="0.1">
+                        <span class="unit-label" id="neckUnit">cm</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="waist">Waist Circumference:</label>
+                    <div class="input-group">
+                        <input type="number" id="waist" required min="1" step="0.1">
+                        <span class="unit-label" id="waistUnit">cm</span>
+                    </div>
+                </div>
+
+                <div class="form-group" id="hipGroup">
+                    <label for="hip">Hip Circumference (Women only):</label>
+                    <div class="input-group">
+                        <input type="number" id="hip" step="0.1">
+                        <span class="unit-label" id="hipUnit">cm</span>
+                    </div>
+                </div>
+
+                <button type="submit">Calculate Body Fat</button>
+            </form>
+
+            <div id="result" class="result-container" style="display: none;">
+                <h3>Your Body Fat Result:</h3>
+                <div class="bodyfat-result">
+                    <span id="bodyFatValue">0</span>%
+                    <div id="bodyFatCategory" class="bodyfat-category"></div>
+                </div>
+                <div class="bodyfat-scale">
+                    <div class="scale-item">
+                        <span>Essential Fat</span>
+                        <small id="essentialFat">2-5% ♂ | 10-13% ♀</small>
+                    </div>
+                    <div class="scale-item">
+                        <span>Athletes</span>
+                        <small id="athletesFat">6-13% ♂ | 14-20% ♀</small>
+                    </div>
+                    <div class="scale-item">
+                        <span>Fitness</span>
+                        <small id="fitnessFat">14-17% ♂ | 21-24% ♀</small>
+                    </div>
+                    <div class="scale-item">
+                        <span>Average</span>
+                        <small id="averageFat">18-24% ♂ | 25-31% ♀</small>
+                    </div>
+                    <div class="scale-item">
+                        <span>Obese</span>
+                        <small id="obeseFat">>25% ♂ | >32% ♀</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Use</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script src="body-fat.js"></script>
+</body>
+</html>

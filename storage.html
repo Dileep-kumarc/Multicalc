@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- SEO Meta Tags -->
+  <title>Data Storage Converter | Convert Bytes, KB, MB, GB, TB Instantly</title>
+  <meta name="description" content="Convert data storage units like Bytes, KB, MB, GB, and TB quickly with our online storage converter tool. Includes explanations of storage units and real-world examples." />
+  <meta name="keywords" content="Data Storage Converter, Byte to KB, KB to MB, MB to GB, Storage Units Converter, Convert Storage Online, Digital Storage Calculator" />
+  <meta name="author" content="Your Name or Brand" />
+
+  <!-- Open Graph Tags -->
+  <meta property="og:title" content="Data Storage Converter | Fast & Accurate Tool" />
+  <meta property="og:description" content="Easily convert data units between Bytes, KB, MB, GB, and TB. Free online data storage converter with instant results and educational content." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com/data-converter" />
+  <meta property="og:image" content="https://yourdomain.com/images/converter-thumbnail.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Styles -->
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3f37c9;
+      --accent-color: #4895ef;
+      --success-color: #4cc9f0;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+      --text-color: #495057;
+      --border-radius: 10px;
+      --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
+      color: var(--text-color);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background-color: var(--primary-color);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo i {
+      font-size: 1.3rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: white;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .content-container {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .converter-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-weight: 300;
+      opacity: 0.9;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .converter-section {
+      padding: 2rem;
+    }
+
+    .converter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      color: var(--dark-color);
+    }
+
+    .input-group {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-group input, 
+    .input-group select {
+      flex: 1;
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 1rem;
+      color: var(--primary-color);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      font-size: 1rem;
+      border-radius: var(--border-radius);
+      border: 1px solid #e2e8f0;
+      font-family: 'Poppins', sans-serif;
+      transition: var(--transition);
+      background-color: #f8f9fa;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+      background-color: white;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .reset-button {
+      background-color: #dc3545;
+    }
+
+    .reset-button:hover {
+      background-color: #c82333;
+    }
+
+    .result-container {
+      background-color: #f8f9fa;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin-top: 2rem;
+      text-align: center;
+      border-left: 4px solid var(--success-color);
+    }
+
+    .result-error {
+      color: #dc3545;
+      font-weight: 500;
+    }
+
+    .result-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin: 0.5rem 0;
+    }
+
+    .result-label {
+      font-size: 1rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+
+    .share-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .share-buttons a {
+      padding: 0.5rem 1rem;
+      color: white;
+      text-decoration: none;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+
+    .whatsapp { background-color: #25D366; }
+    .twitter { background-color: #1DA1F2; }
+
+    .share-buttons a:hover {
+      transform: translateY(-2px);
+    }
+
+    .info-section {
+      padding: 2rem;
+      background-color: #f8f9fa;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    h2 {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background-color: var(--accent-color);
+    }
+
+    h3 {
+      color: var(--secondary-color);
+      margin: 1.5rem 0 1rem;
+      font-size: 1.3rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+
+    ul, ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .storage-units {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .unit-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      border-top: 3px solid var(--accent-color);
+    }
+
+    .unit-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .unit-title {
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .unit-examples {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      opacity: 0.8;
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    .example-section {
+      margin-top: 2rem;
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--box-shadow);
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .example-card {
+      background-color: #f8f9fa;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .conversion-tips {
+      margin-top: 2rem;
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--box-shadow);
+    }
+
+    .tip-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background-color: #f8f9fa;
+      border-radius: var(--border-radius);
+    }
+
+    .tip-icon {
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    footer {
+      background: linear-gradient(135deg, var(--dark-color) 0%, #343a40 100%);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      text-align: left;
+    }
+
+    .footer-section h4 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: white;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .footer-section h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: var(--accent-color);
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: #adb5bd;
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-links a:hover {
+      color: white;
+      padding-left: 5px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-links a {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      .converter-header {
+        padding: 1.5rem 1rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .converter-section, 
+      .info-section,
+      .example-section,
+      .conversion-tips {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .converter-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .result-value {
+        font-size: 1.5rem;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-database"></i>
+      <span>Storage Converter</span>
+    </div>
+    <div class="hamburger">
+      <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <section id="converter" class="content-container">
+      <div class="converter-header">
+        <h1>Data Storage Converter</h1>
+        <p class="subtitle">Instantly convert between Bytes, Kilobytes, Megabytes, Gigabytes, and Terabytes</p>
+      </div>
+
+      <div class="converter-section">
+        <div class="converter-grid">
+          <div class="form-group">
+            <label for="inputValue">Enter Value</label>
+            <div class="input-group">
+              <input type="number" id="inputValue" placeholder="e.g., 1024" min="0" step="any" aria-label="Enter value to convert">
+              <i class="fas fa-hashtag input-icon"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="fromUnit">From Unit</label>
+            <div class="input-group">
+              <select id="fromUnit" aria-label="Select unit to convert from">
+                <option value="B">Bytes (B)</option>
+                <option value="KB">Kilobytes (KB)</option>
+                <option value="MB">Megabytes (MB)</option>
+                <option value="GB">Gigabytes (GB)</option>
+                <option value="TB">Terabytes (TB)</option>
+              </select>
+              <i class="fas fa-arrow-down input-icon"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="toUnit">To Unit</label>
+            <div class="input-group">
+              <select id="toUnit" aria-label="Select unit to convert to">
+                <option value="B">Bytes (B)</option>
+                <option value="KB" selected>Kilobytes (KB)</option>
+                <option value="MB">Megabytes (MB)</option>
+                <option value="GB">Gigabytes (GB)</option>
+                <option value="TB">Terabytes (TB)</option>
+              </select>
+              <i class="fas fa-arrow-down input-icon"></i>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+          <button onclick="convert()" aria-label="Convert storage units">
+            <i class="fas fa-exchange-alt"></i>
+            Convert Now
+          </button>
+          <button class="reset-button" onclick="reset()" aria-label="Reset inputs">
+            <i class="fas fa-undo"></i>
+            Reset
+          </button>
+        </div>
+
+        <div class="result-container" id="resultContainer" style="display: none;">
+          <div class="result-label">Conversion Result</div>
+          <div class="result-value" id="resultValue">0</div>
+          <div class="result-label" id="resultLabel">KB</div>
+          <div class="share-buttons">
+            <a href="#" class="whatsapp" onclick="shareWhatsApp()">Share on WhatsApp</a>
+            <a href="#" class="twitter" onclick="shareTwitter()">Share on Twitter</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Information Section -->
+    <section id="info" class="info-section">
+      <h2>Understanding Data Storage Units</h2>
+      <p>Digital storage is measured in bytes, with each larger unit representing an exponential increase in capacity. Here's a breakdown of common storage units:</p>
+      
+      <div class="storage-units">
+        <div class="unit-card">
+          <div class="unit-title">
+            <i class="fas fa-memory"></i>
+            <span>Byte (B)</span>
+          </div>
+          <p>The basic unit of digital information storage. One byte equals 8 bits.</p>
+          <div class="unit-examples">Example: A single character of text</div>
+        </div>
+
+        <div class="unit-card">
+          <div class="unit-title">
+            <i class="fas fa-file"></i>
+            <span>Kilobyte (KB)</span>
+          </div>
+          <p>1 KB = 1,024 bytes. Used for small files like text documents or simple images.</p>
+          <div class="unit-examples">Example: A short email without attachments</div>
+        </div>
+
+        <div class="unit-card">
+          <div class="unit-title">
+            <i class="fas fa-image"></i>
+            <span>Megabyte (MB)</span>
+          </div>
+          <p>1 MB = 1,024 KB = 1,048,576 bytes. Common for photos, songs, and documents.</p>
+          <div class="unit-examples">Example: A 3-minute MP3 song or a high-resolution photo</div>
+        </div>
+
+        <div class="unit-card">
+          <div class="unit-title">
+            <i class="fas fa-film"></i>
+            <span>Gigabyte (GB)</span>
+          </div>
+          <p>1 GB = 1,024 MB = 1,073,741,824 bytes. Used for movies, software, and storage devices.</p>
+          <div class="unit-examples">Example: A DVD-quality movie or 250 MP3 songs</div>
+        </div>
+
+        <div class="unit-card">
+          <div class="unit-title">
+            <i class="fas fa-server"></i>
+            <span>Terabyte (TB)</span>
+          </div>
+          <p>1 TB = 1,024 GB = 1,099,511,627,776 bytes. Used for large storage systems and data centers.</p>
+          <div class="unit-examples">Example: 250,000 photos or 500 hours of HD video</div>
+        </div>
+      </div>
+
+      <h3>Binary vs Decimal Interpretation</h3>
+      <p>There are two ways to interpret storage units:</p>
+      <ul>
+        <li><strong>Binary (Base-2):</strong> 1 KB = 1,024 bytes (used by computers and this calculator)</li>
+        <li><strong>Decimal (Base-10):</strong> 1 KB = 1,000 bytes (sometimes used by storage manufacturers)</li>
+      </ul>
+      <p>This difference can lead to apparent discrepancies between advertised and actual storage capacity.</p>
+    </section>
+
+    <!-- Examples Section -->
+    <section id="examples" class="example-section">
+      <h2>Real-World Storage Examples</h2>
+      <p>To help visualize these units, here are some common digital storage examples:</p>
+      
+      <div class="example-grid">
+        <div class="example-card">
+          <h3>Text & Documents</h3>
+          <ul>
+            <li>1 page of plain text: ~2 KB</li>
+            <li>Average Word document: 25-100 KB</li>
+            <li>Ebook (no images): 200-500 KB</li>
+            <li>1000-page textbook (PDF): ~5 MB</li>
+          </ul>
+        </div>
+
+        <div class="example-card">
+          <h3>Images</h3>
+          <ul>
+            <li>Web banner (728x90px): ~30 KB</li>
+            <li>Smartphone photo (12MP): 3-5 MB</li>
+            <li>DSLR RAW photo: 25-50 MB</li>
+            <li>High-res scan (300dpi): 5-10 MB</li>
+          </ul>
+        </div>
+
+        <div class="example-card">
+          <h3>Audio</h3>
+          <ul>
+            <li>1 minute of phone-quality audio: ~500 KB</li>
+            <li>3-minute MP3 song (128kbps): ~3 MB</li>
+            <li>3-minute MP3 song (320kbps): ~7 MB</li>
+            <li>1 hour of CD-quality audio: ~600 MB</li>
+          </ul>
+        </div>
+
+        <div class="example-card">
+          <h3>Video</h3>
+          <ul>
+            <li>1 minute of 480p video: ~10 MB</li>
+            <li>1 minute of 1080p video: ~100 MB</li>
+            <li>1 minute of 4K video: ~350 MB</li>
+            <li>2-hour HD movie: 4-8 GB</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conversion Tips -->
+    <section id="tips" class="conversion-tips">
+      <h2>Conversion Tips & Tricks</h2>
+      <p>Use these strategies to quickly estimate storage conversions:</p>
+      
+      <div class="tip-card">
+        <div class="tip-icon">
+          <i class="fas fa-lightbulb"></i>
+        </div>
+        <div>
+          <h3>Quick Approximation</h3>
+          <p>For rough estimates, you can use 1,000 instead of 1,024 for each step (KB to MB, MB to GB, etc.). This gives results within about 5% of the exact value.</p>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">
+          <i class="fas fa-calculator"></i>
+        </div>
+        <div>
+          <h3>Memory Shortcut</h3>
+          <p>Remember these common conversions:
+            <ul>
+              <li>1 MB = 1,000 KB (approximate)</li>
+              <li>1 GB = 1,000 MB = 1 million KB</li>
+              <li>1 TB = 1,000 GB = 1 million MB</li>
+            </ul>
+          </p>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-icon">
+          <i class="fas fa-mobile-alt"></i>
+        </div>
+        <div>
+          <h3>Device Storage</h3>
+          <p>When checking device storage, use this tool to convert advertised capacity (often in decimal) to binary units for a more accurate representation of usable space.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>About Us</h4>
+        <p>We provide user-friendly tools to help you understand and convert digital storage units effortlessly.</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#converter"><i class="fas fa-exchange-alt"></i> Converter</a></li>
+          <li><a href="#info"><i class="fas fa-info-circle"></i> Information</a></li>
+          <li><a href="#examples"><i class="fas fa-book"></i> Examples</a></li>
+          <li><a href="#tips"><i class="fas fa-lightbulb"></i> Tips</a></li>
+        </ul>
+      </div>
+
+     
+    <div class="footer-bottom">
+      <p>© 2025 Data Storage Converter. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Conversion factors (base-2, 1 KB = 1024 bytes)
+    const units = {
+      B: 1,
+      KB: 1024,
+      MB: 1024 * 1024,
+      GB: 1024 * 1024 * 1024,
+      TB: 1024 * 1024 * 1024 * 1024
+    };
+
+    // DOM Elements
+    const inputValue = document.getElementById('inputValue');
+    const fromUnit = document.getElementById('fromUnit');
+    const toUnit = document.getElementById('toUnit');
+    const resultContainer = document.getElementById('resultContainer');
+    const resultValue = document.getElementById('resultValue');
+    const resultLabel = document.getElementById('resultLabel');
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    // Toggle hamburger menu
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Real-time conversion on input
+    [inputValue, fromUnit, toUnit].forEach(element => {
+      element.addEventListener('input', convert);
+    });
+
+    // Conversion function
+    function convert() {
+      const value = parseFloat(inputValue.value);
+      const from = fromUnit.value;
+      const to = toUnit.value;
+
+      // Validate input
+      if (isNaN(value) || value < 0) {
+        resultContainer.style.display = 'block';
+        resultValue.textContent = 'Please enter a valid positive number';
+        resultValue.classList.add('result-error');
+        resultLabel.textContent = '';
+        return;
+      }
+
+      // Remove error styling if valid
+      resultValue.classList.remove('result-error');
+
+      // Convert to bytes first, then to target unit
+      const bytes = value * units[from];
+      const result = bytes / units[to];
+
+      // Dynamic precision: whole number if integer, up to 6 decimals for small numbers
+      const formattedResult = Number.isInteger(result) ? result.toString() : result.toFixed(6).replace(/\.?0+$/, '');
+
+      // Display result
+      resultValue.textContent = formattedResult;
+      resultLabel.textContent = to;
+      resultContainer.style.display = 'block';
+    }
+
+    // Reset function
+    function reset() {
+      inputValue.value = '';
+      fromUnit.value = 'B';
+      toUnit.value = 'KB';
+      resultContainer.style.display = 'none';
+      resultValue.textContent = '0';
+      resultLabel.textContent = 'KB';
+      resultValue.classList.remove('result-error');
+    }
+
+    // Share on WhatsApp
+    function shareWhatsApp() {
+      const text = `Converted ${inputValue.value} ${fromUnit.value} to ${resultValue.textContent} ${toUnit.value} using Data Storage Converter!`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    // Share on Twitter
+    function shareTwitter() {
+      const text = `Converted ${inputValue.value} ${fromUnit.value} to ${resultValue.textContent} ${toUnit.value} with Data Storage Converter!`;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+    }
+  </script>
+</body>
+</html>

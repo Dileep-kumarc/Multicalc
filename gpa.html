@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA Calculator | MultiCalc</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6c757d;
+            --accent-color: #28a745;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--box-shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover {
+            color: var(--warning-color);
+        }
+
+        .main-content {
+            margin-top: 2rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--secondary-color);
+            transition: var(--transition);
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5a8a;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #bd2130;
+        }
+
+        .btn-success {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+
+        .course-row {
+            transition: var(--transition);
+        }
+
+        .course-row:hover {
+            background-color: #f8f9fa;
+        }
+
+        .result-section {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .progress-container {
+            margin: 1.5rem 0;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.5s ease;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .share-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .whatsapp {
+            background-color: #25D366;
+            color: white;
+        }
+
+        .instagram {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+            color: white;
+        }
+
+        .facebook {
+            background-color: #3b5998;
+            color: white;
+        }
+
+        .twitter {
+            background-color: #1DA1F2;
+            color: white;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+        }
+        /* Footer */
+.footer {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 4rem 0 1.5rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.footer-section h4 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-section a {
+    color: #cbd5e0;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 0.95rem;
+}
+
+.footer-section a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid #4a5568;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-bottom p {
+    color: #a0aec0;
+    font-size: 0.9rem;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.social-links a {
+    color: white;
+    font-size: 1.25rem;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.25rem;
+    }
+    
+    .hero-stats {
+        gap: 2rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 0;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">MultiCalc</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <h1>GPA Calculator</h1>
+        <p>Calculate your semester GPA, cumulative GPA, and track your academic progress with our comprehensive GPA calculator.</p>
+
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="semester">Semester GPA</button>
+                <button class="tab-btn" data-tab="cumulative">Cumulative GPA</button>
+                <button class="tab-btn" data-tab="settings">Settings</button>
+            </div>
+
+            <div id="semester" class="tab-content active">
+                <h2>Semester GPA Calculator</h2>
+                <p>Enter your courses, credit hours, and grades to calculate your semester GPA.</p>
+
+                <table id="course-table">
+                    <thead>
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Credit Hours</th>
+                            <th>Grade</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="course-list">
+                        <tr class="course-row">
+                            <td><input type="text" class="course-name" placeholder="e.g. Mathematics 101"></td>
+                            <td><input type="number" class="credit-hours" min="0" step="0.5" value="3"></td>
+                            <td>
+                                <select class="grade">
+                                    <option value="4.0">A (4.0)</option>
+                                    <option value="3.7">A- (3.7)</option>
+                                    <option value="3.3">B+ (3.3)</option>
+                                    <option value="3.0">B (3.0)</option>
+                                    <option value="2.7">B- (2.7)</option>
+                                    <option value="2.3">C+ (2.3)</option>
+                                    <option value="2.0">C (2.0)</option>
+                                    <option value="1.7">C- (1.7)</option>
+                                    <option value="1.3">D+ (1.3)</option>
+                                    <option value="1.0">D (1.0)</option>
+                                    <option value="0.0">F (0.0)</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger remove-course">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button id="add-course" class="btn btn-primary">Add Course</button>
+
+                <div class="result-section">
+                    <h3>Your Semester GPA</h3>
+                    <div class="result-value" id="semester-gpa">0.00</div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="semester-progress" style="width: 0%"></div>
+                        </div>
+                        <p>GPA Scale: <span id="scale-display">4.0</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cumulative" class="tab-content">
+                <h2>Cumulative GPA Calculator</h2>
+                <p>Calculate your overall GPA by combining your current GPA with new semester data.</p>
+
+                <div class="form-group">
+                    <label for="current-gpa">Current Cumulative GPA</label>
+                    <input type="number" id="current-gpa" min="0" max="4" step="0.01" value="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="current-credits">Total Credits Completed</label>
+                    <input type="number" id="current-credits" min="0" step="0.5" value="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="new-gpa">New Semester GPA</label>
+                    <input type="number" id="new-gpa" min="0" max="4" step="0.01" value="0" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="new-credits">New Semester Credits</label>
+                    <input type="number" id="new-credits" min="0" step="0.5" value="0" readonly>
+                </div>
+
+                <button id="calculate-cumulative" class="btn btn-primary">Calculate Cumulative GPA</button>
+
+                <div class="result-section">
+                    <h3>Your Cumulative GPA</h3>
+                    <div class="result-value" id="cumulative-gpa">0.00</div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="cumulative-progress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings" class="tab-content">
+                <h2>GPA Calculator Settings</h2>
+                <p>Customize your GPA calculation preferences.</p>
+
+                <div class="form-group">
+                    <label for="gpa-scale">GPA Scale</label>
+                    <select id="gpa-scale">
+                        <option value="4.0">4.0 Scale (US Standard)</option>
+                        <option value="10.0">10.0 Scale (India)</option>
+                        <option value="custom">Custom Scale</option>
+                    </select>
+                </div>
+
+                <div id="custom-scale-container" style="display: none;">
+                    <div class="form-group">
+                        <label for="custom-scale-value">Custom Scale Maximum Value</label>
+                        <input type="number" id="custom-scale-value" min="1" step="0.1" value="4.0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="gpa-weighting">GPA Weighting</label>
+                    <select id="gpa-weighting">
+                        <option value="unweighted">Unweighted (Standard)</option>
+                        <option value="weighted">Weighted (Honors/AP/IB)</option>
+                    </select>
+                </div>
+
+                <div id="weighted-settings" style="display: none;">
+                    <div class="form-group">
+                        <label for="honors-weight">Honors Course Weight</label>
+                        <input type="number" id="honors-weight" min="0" step="0.1" value="0.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="ap-ib-weight">AP/IB Course Weight</label>
+                        <input type="number" id="ap-ib-weight" min="0" step="0.1" value="1.0">
+                    </div>
+                </div>
+
+                <button id="apply-settings" class="btn btn-primary">Apply Settings</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Export & Share Your GPA</h2>
+            <div class="form-group">
+                <button id="print-report" class="btn btn-primary">Print GPA Report</button>
+                
+            </div>
+
+            <div class="share-buttons">
+                <button class="share-btn whatsapp">WhatsApp</button>
+              
+                <button class="share-btn facebook">Facebook</button>
+                <button class="share-btn twitter">X</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>Calculator Categories</h4>
+                    <ul>
+                        <li><a href="#health">Health & Fitness</a></li>
+                        <li><a href="#math">Education & Math</a></li>
+                        <li><a href="#Age">Age Calculator</a></li>
+                    </ul>
+                </div>
+              
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Calculators & Insights</h4>
+                <ul>
+                    <li><a href="compound-interestblog.html">compound-interest</a></li>
+                    <li><a href="geometry-guides.html">Geometry Guides</a></li>
+                    <li><a href="age blog.html">Age Calculation Tips</a></li>
+                    <li><a href="GPA blog.html">How to Calculate Your GPA</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved. The most comprehensive free online calculator resource.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="gpa.js"></script>
+</body>
+</html>

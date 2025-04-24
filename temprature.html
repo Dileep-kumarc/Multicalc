@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <style>
+       :root {
+    --primary-color: #4a6bff;
+    --secondary-color: #f0f0f0;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.navbar {
+    background-color: #fff;
+    padding: 1rem 2rem;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 1.5rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.scale {
+    height: 20px;
+    background: linear-gradient(to right, blue, cyan, green, yellow, red);
+    border-radius: var(--border-radius);
+    margin: 20px 0;
+    position: relative;
+}
+
+.marker {
+    position: absolute;
+    top: -25px;
+    transform: translateX(-50%);
+    font-size: 12px;
+}
+
+.converter {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-group label {
+    font-weight: 500;
+}
+
+.input-group input,
+.input-group select {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.2);
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    flex: 1;
+}
+
+#convert {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+#convert:hover {
+    background-color: #3a5bef;
+}
+
+.secondary {
+    background-color: var(--secondary-color);
+    color: #333;
+}
+
+.secondary:hover {
+    background-color: #e0e0e0;
+}
+
+.result {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    text-align: center;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer {
+    background-color: #fff;
+    padding: 2rem 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    margin-top: 2rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.footer-section h4 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: #555;
+    transition: var(--transition);
+}
+
+.footer-section ul li a:hover {
+    color: var(--primary-color);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid #eee;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .buttons {
+        flex-direction: column;
+    }
+    
+    .navbar {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    
+    .nav-links {
+        margin-top: 1rem;
+    }
+    
+    .nav-links li {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+}
+
+/* Font Awesome icons (if you're using them) */
+.fas {
+    margin-right: 0.5rem;
+}
+    </style>
+</head>
+<header>
+    <nav class="navbar">
+        <a href="index.html" class="logo">MultiCalc</a>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
+</header>
+<body>
+    <div class="container">
+        <h1>Temperature Converter</h1>
+        
+        <div class="scale">
+            <div class="marker" style="left: 0%;">-273°C</div>
+            <div class="marker" style="left: 25%;">0°C</div>
+            <div class="marker" style="left: 50%;">100°C</div>
+            <div class="marker" style="left: 75%;">212°F</div>
+            <div class="marker" style="left: 100%;">∞</div>
+        </div>
+        
+        <div class="converter">
+            <div class="input-group">
+                <label for="fromValue">Temperature:</label>
+                <input type="number" id="fromValue" placeholder="Enter value">
+            </div>
+            
+            <div class="input-group">
+                <label for="fromUnit">From:</label>
+                <select id="fromUnit">
+                    <option value="C">Celsius (°C)</option>
+                    <option value="F">Fahrenheit (°F)</option>
+                    <option value="K">Kelvin (K)</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="toUnit">To:</label>
+                <select id="toUnit">
+                    <option value="F">Fahrenheit (°F)</option>
+                    <option value="C">Celsius (°C)</option>
+                    <option value="K">Kelvin (K)</option>
+                </select>
+            </div>
+            
+            <div class="buttons">
+                <button id="convert">Convert</button>
+                <button id="swap" class="secondary">Swap</button>
+                <button id="clear" class="secondary">Clear</button>
+            </div>
+        </div>
+        
+        <div class="result" id="result">
+            Result will appear here
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>MultiCalc</h4>
+                    <p>Your comprehensive calculation solution for everyday needs.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Calculators</h4>
+                    <ul>
+                        <li><a href="unit.html">Unit Converter</a></li>
+                        <li><a href="fuel-calculator.html">Fuel Calculator</a></li>
+                        <li><a href="timezone.html">Timezone Converter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved. | Version 2.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fromValue = document.getElementById('fromValue');
+            const fromUnit = document.getElementById('fromUnit');
+            const toUnit = document.getElementById('toUnit');
+            const convertBtn = document.getElementById('convert');
+            const swapBtn = document.getElementById('swap');
+            const clearBtn = document.getElementById('clear');
+            const resultDiv = document.getElementById('result');
+            
+            // Conversion functions
+            function celsiusToFahrenheit(c) {
+                return (c * 9/5) + 32;
+            }
+            
+            function fahrenheitToCelsius(f) {
+                return (f - 32) * 5/9;
+            }
+            
+            function celsiusToKelvin(c) {
+                return c + 273.15;
+            }
+            
+            function kelvinToCelsius(k) {
+                return k - 273.15;
+            }
+            
+            function convertTemperature() {
+                const value = parseFloat(fromValue.value);
+                if (isNaN(value)) {
+                    resultDiv.textContent = "Please enter a valid number";
+                    return;
+                }
+                
+                const from = fromUnit.value;
+                const to = toUnit.value;
+                let result, formula;
+                
+                // Convert to Celsius first
+                let tempInCelsius;
+                switch(from) {
+                    case 'C':
+                        tempInCelsius = value;
+                        break;
+                    case 'F':
+                        tempInCelsius = fahrenheitToCelsius(value);
+                        break;
+                    case 'K':
+                        tempInCelsius = kelvinToCelsius(value);
+                        break;
+                }
+                
+                // Then convert from Celsius to target unit
+                switch(to) {
+                    case 'C':
+                        result = tempInCelsius;
+                        formula = `${value}°${from} = ${result.toFixed(2)}°C`;
+                        break;
+                    case 'F':
+                        result = celsiusToFahrenheit(tempInCelsius);
+                        formula = `${value}°${from} → ${tempInCelsius.toFixed(2)}°C → ${result.toFixed(2)}°F`;
+                        break;
+                    case 'K':
+                        result = celsiusToKelvin(tempInCelsius);
+                        formula = `${value}°${from} → ${tempInCelsius.toFixed(2)}°C → ${result.toFixed(2)}K`;
+                        break;
+                }
+                
+                resultDiv.innerHTML = `<strong>${formula}</strong>`;
+            }
+            
+            // Swap units
+            function swapUnits() {
+                const temp = fromUnit.value;
+                fromUnit.value = toUnit.value;
+                toUnit.value = temp;
+                
+                if (resultDiv.textContent !== "Result will appear here") {
+                    convertTemperature();
+                }
+            }
+            
+            // Clear inputs
+            function clearInputs() {
+                fromValue.value = '';
+                resultDiv.textContent = "Result will appear here";
+            }
+            
+            // Event listeners
+            convertBtn.addEventListener('click', convertTemperature);
+            swapBtn.addEventListener('click', swapUnits);
+            clearBtn.addEventListener('click', clearInputs);
+            
+            // Convert when input changes
+            fromValue.addEventListener('input', function() {
+                if (fromValue.value) {
+                    convertTemperature();
+                } else {
+                    resultDiv.textContent = "Result will appear here";
+                }
+            });
+            
+            // Convert when units change
+            fromUnit.addEventListener('change', convertTemperature);
+            toUnit.addEventListener('change', convertTemperature);
+        });
+    </script>
+</body>
+</html>

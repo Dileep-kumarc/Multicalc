@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert between different units of measurement - length, weight, temperature, and more">
+    <title>Advanced Unit Converter - MultiCalc</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #4a6baf;
+            --primary-dark: #3a5a9f;
+            --secondary-color: #6c757d;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a i {
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        .content-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .calculator-description {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Calculator Form */
+        .calculator-form {
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 107, 175, 0.2);
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .conversion-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .input-group input {
+            flex: 1;
+            border: none;
+            border-radius: 0;
+        }
+
+        .input-group select {
+            width: auto;
+            border: none;
+            border-left: 1px solid #ddd;
+            background-color: #f8f9fa;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .primary-button, .secondary-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .primary-button {
+            background-color: var(--primary-color);
+            color: white;
+            flex: 1;
+        }
+
+        .primary-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .secondary-button {
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+            border: 1px solid #ddd;
+        }
+
+        .secondary-button:hover {
+            background-color: #e9ecef;
+        }
+
+        /* Results Section */
+        .result-container {
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .result {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .formula {
+            font-family: 'Courier New', monospace;
+            background-color: white;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Info Section */
+        .info-section {
+            margin-top: 2rem;
+        }
+
+        .info-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .common-conversions {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .conversion-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .conversion-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .conversion-card h3 {
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .conversion-card p {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #495057;
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                margin-top: 1rem;
+            }
+
+            .nav-links li {
+                margin-left: 0;
+                margin-right: 1.5rem;
+            }
+
+            .conversion-container {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--box-shadow);
+            z-index: 99;
+            transition: var(--transition);
+        }
+
+        .dark-mode-toggle:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode header {
+            background-color: #1e1e1e;
+        }
+
+        body.dark-mode .content-container,
+        body.dark-mode .result-container,
+        body.dark-mode .conversion-card,
+        body.dark-mode .formula {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode select,
+        body.dark-mode input[type="number"],
+        body.dark-mode .input-group {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+
+        body.dark-mode .input-group select {
+            background-color: #2d2d2d;
+        }
+
+        body.dark-mode .secondary-button {
+            background-color: #2d2d2d;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode footer {
+            background-color: #121212;
+        }
+
+        body.dark-mode .footer-section a {
+            color: #aaa;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar container">
+            <a href="index.html" class="logo">MultiCalc</a>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="content-container">
+            <h1>Advanced Unit Converter</h1>
+            <p class="calculator-description">Convert between different units of measurement including length, weight, temperature, and more.</p>
+
+            <form id="unitConverter" class="calculator-form">
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" required>
+                        <option value="length">Length</option>
+                        <option value="weight">Weight</option>
+                        <option value="temperature">Temperature</option>
+                        <option value="area">Area</option>
+                        <option value="volume">Volume</option>
+                        <option value="speed">Speed</option>
+                        <option value="time">Time</option>
+                        <option value="digital">Digital Storage</option>
+                        <option value="energy">Energy</option>
+                        <option value="power">Power</option>
+                        <option value="pressure">Pressure</option>
+                        <option value="angle">Angle</option>
+                    </select>
+                </div>
+
+                <div class="conversion-container">
+                    <div class="form-group">
+                        <label for="fromValue">From:</label>
+                        <div class="input-group">
+                            <input type="number" id="fromValue" required step="any" placeholder="Enter value">
+                            <select id="fromUnit" required></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="toValue">To:</label>
+                        <div class="input-group">
+                            <input type="number" id="toValue" readonly placeholder="Result">
+                            <select id="toUnit" required></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" id="convert" class="primary-button">
+                        <i class="fas fa-exchange-alt"></i> Convert
+                    </button>
+                    <button type="button" id="swap" class="secondary-button">
+                        <i class="fas fa-random"></i> Swap
+                    </button>
+                    <button type="button" id="clear" class="secondary-button">
+                        <i class="fas fa-trash-alt"></i> Clear
+                    </button>
+                </div>
+            </form>
+
+            <div class="result-container">
+                <div id="result" class="result">0</div>
+                <div id="formula" class="formula">Select units to see conversion formula</div>
+            </div>
+
+            <div class="info-section">
+                <h2><i class="fas fa-star"></i> Common Conversions</h2>
+                <div id="commonConversions" class="common-conversions">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>MultiCalc</h4>
+                    <p>Your comprehensive unit conversion solution with support for multiple measurement categories.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MultiCalc. All rights reserved. | Version 2.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Unit conversion data
+        const unitData = {
+            length: {
+                units: ['mm', 'cm', 'm', 'km', 'in', 'ft', 'yd', 'mi'],
+                names: ['Millimeter', 'Centimeter', 'Meter', 'Kilometer', 'Inch', 'Foot', 'Yard', 'Mile'],
+                conversions: {
+                    mm: { cm: 0.1, m: 0.001, km: 0.000001, in: 0.0393701, ft: 0.00328084, yd: 0.00109361, mi: 0.000000621371 },
+                    cm: { mm: 10, m: 0.01, km: 0.00001, in: 0.393701, ft: 0.0328084, yd: 0.0109361, mi: 0.00000621371 },
+                    m: { mm: 1000, cm: 100, km: 0.001, in: 39.3701, ft: 3.28084, yd: 1.09361, mi: 0.000621371 },
+                    km: { mm: 1000000, cm: 100000, m: 1000, in: 39370.1, ft: 3280.84, yd: 1093.61, mi: 0.621371 },
+                    in: { mm: 25.4, cm: 2.54, m: 0.0254, km: 0.0000254, ft: 0.0833333, yd: 0.0277778, mi: 0.000015783 },
+                    ft: { mm: 304.8, cm: 30.48, m: 0.3048, km: 0.0003048, in: 12, yd: 0.333333, mi: 0.000189394 },
+                    yd: { mm: 914.4, cm: 91.44, m: 0.9144, km: 0.0009144, in: 36, ft: 3, mi: 0.000568182 },
+                    mi: { mm: 1609340, cm: 160934, m: 1609.34, km: 1.60934, in: 63360, ft: 5280, yd: 1760 }
+                },
+                formulas: {
+                    default: "Multiply by conversion factor",
+                    special: {}
+                }
+            },
+            weight: {
+                units: ['mg', 'g', 'kg', 'oz', 'lb', 'st', 't'],
+                names: ['Milligram', 'Gram', 'Kilogram', 'Ounce', 'Pound', 'Stone', 'Ton'],
+                conversions: {
+                    mg: { g: 0.001, kg: 0.000001, oz: 0.000035274, lb: 0.00000220462, st: 0.000000157473, t: 0.000000001 },
+                    g: { mg: 1000, kg: 0.001, oz: 0.035274, lb: 0.00220462, st: 0.000157473, t: 0.000001 },
+                    kg: { mg: 1000000, g: 1000, oz: 35.274, lb: 2.20462, st: 0.157473, t: 0.001 },
+                    oz: { mg: 28349.5, g: 28.3495, kg: 0.0283495, lb: 0.0625, st: 0.00446429, t: 0.0000283495 },
+                    lb: { mg: 453592, g: 453.592, kg: 0.453592, oz: 16, st: 0.0714286, t: 0.000453592 },
+                    st: { mg: 6350290, g: 6350.29, kg: 6.35029, oz: 224, lb: 14, t: 0.00635029 },
+                    t: { mg: 1000000000, g: 1000000, kg: 1000, oz: 35274, lb: 2204.62, st: 157.473 }
+                },
+                formulas: {
+                    default: "Multiply by conversion factor",
+                    special: {}
+                }
+            },
+            temperature: {
+                units: ['C', 'F', 'K'],
+                names: ['Celsius', 'Fahrenheit', 'Kelvin'],
+                conversions: {
+                    C: { F: (c) => c * 9/5 + 32, K: (c) => c + 273.15 },
+                    F: { C: (f) => (f - 32) * 5/9, K: (f) => (f - 32) * 5/9 + 273.15 },
+                    K: { C: (k) => k - 273.15, F: (k) => (k - 273.15) * 9/5 + 32 }
+                },
+                formulas: {
+                    default: "Special formula required",
+                    special: {
+                        'C_to_F': "°F = °C × 9/5 + 32",
+                        'F_to_C': "°C = (°F - 32) × 5/9",
+                        'C_to_K': "K = °C + 273.15",
+                        'K_to_C': "°C = K - 273.15",
+                        'F_to_K': "K = (°F - 32) × 5/9 + 273.15",
+                        'K_to_F': "°F = (K - 273.15) × 9/5 + 32"
+                    }
+                }
+            },
+            // Add other categories similarly...
+            area: {
+                units: ['mm²', 'cm²', 'm²', 'km²', 'in²', 'ft²', 'yd²', 'ac', 'ha'],
+                names: ['Square Millimeter', 'Square Centimeter', 'Square Meter', 'Square Kilometer', 'Square Inch', 'Square Foot', 'Square Yard', 'Acre', 'Hectare'],
+                conversions: {
+                    'mm²': { 'cm²': 0.01, 'm²': 0.000001, 'km²': 1e-12, 'in²': 0.00155, 'ft²': 0.0000108, 'yd²': 0.000001196, 'ac': 2.47105e-10, 'ha': 1e-10 },
+                    'cm²': { 'mm²': 100, 'm²': 0.0001, 'km²': 1e-10, 'in²': 0.155, 'ft²': 0.00108, 'yd²': 0.0001196, 'ac': 2.47105e-8, 'ha': 1e-8 },
+                    'm²': { 'mm²': 1000000, 'cm²': 10000, 'km²': 0.000001, 'in²': 1550, 'ft²': 10.7639, 'yd²': 1.19599, 'ac': 0.000247105, 'ha': 0.0001 },
+                    'km²': { 'mm²': 1e12, 'cm²': 1e10, 'm²': 1000000, 'in²': 1.55e9, 'ft²': 1.076e7, 'yd²': 1.196e6, 'ac': 247.105, 'ha': 100 },
+                    'in²': { 'mm²': 645.16, 'cm²': 6.4516, 'm²': 0.00064516, 'km²': 6.4516e-10, 'ft²': 0.00694444, 'yd²': 0.000771605, 'ac': 1.59423e-7, 'ha': 6.4516e-8 },
+                    'ft²': { 'mm²': 92903, 'cm²': 929.03, 'm²': 0.092903, 'km²': 9.2903e-8, 'in²': 144, 'yd²': 0.111111, 'ac': 0.0000229568, 'ha': 0.0000092903 },
+                    'yd²': { 'mm²': 836127, 'cm²': 8361.27, 'm²': 0.836127, 'km²': 8.36127e-7, 'in²': 1296, 'ft²': 9, 'ac': 0.000206612, 'ha': 0.0000836127 },
+                    'ac': { 'mm²': 4.04686e9, 'cm²': 4.04686e7, 'm²': 4046.86, 'km²': 0.00404686, 'in²': 6.273e6, 'ft²': 43560, 'yd²': 4840, 'ha': 0.404686 },
+                    'ha': { 'mm²': 1e10, 'cm²': 1e8, 'm²': 10000, 'km²': 0.01, 'in²': 1.55e7, 'ft²': 107639, 'yd²': 11959.9, 'ac': 2.47105 }
+                },
+                formulas: {
+                    default: "Multiply by conversion factor",
+                    special: {}
+                }
+            },
+            volume: {
+                units: ['ml', 'l', 'm³', 'in³', 'ft³', 'yd³', 'gal', 'qt', 'pt', 'cup'],
+                names: ['Milliliter', 'Liter', 'Cubic Meter', 'Cubic Inch', 'Cubic Foot', 'Cubic Yard', 'Gallon', 'Quart', 'Pint', 'Cup'],
+                conversions: {
+                    'ml': { 'l': 0.001, 'm³': 0.000001, 'in³': 0.0610237, 'ft³': 0.0000353147, 'yd³': 0.00000130795, 'gal': 0.000264172, 'qt': 0.00105669, 'pt': 0.00211338, 'cup': 0.00422675 },
+                    'l': { 'ml': 1000, 'm³': 0.001, 'in³': 61.0237, 'ft³': 0.0353147, 'yd³': 0.00130795, 'gal': 0.264172, 'qt': 1.05669, 'pt': 2.11338, 'cup': 4.22675 },
+                    'm³': { 'ml': 1000000, 'l': 1000, 'in³': 61023.7, 'ft³': 35.3147, 'yd³': 1.30795, 'gal': 264.172, 'qt': 1056.69, 'pt': 2113.38, 'cup': 4226.75 },
+                    'in³': { 'ml': 16.3871, 'l': 0.0163871, 'm³': 0.0000163871, 'ft³': 0.000578704, 'yd³': 0.0000214335, 'gal': 0.004329, 'qt': 0.017316, 'pt': 0.034632, 'cup': 0.0692641 },
+                    'ft³': { 'ml': 28316.8, 'l': 28.3168, 'm³': 0.0283168, 'in³': 1728, 'yd³': 0.037037, 'gal': 7.48052, 'qt': 29.9221, 'pt': 59.8442, 'cup': 119.688 },
+                    'yd³': { 'ml': 764555, 'l': 764.555, 'm³': 0.764555, 'in³': 46656, 'ft³': 27, 'gal': 201.974, 'qt': 807.896, 'pt': 1615.79, 'cup': 3231.58 },
+                    'gal': { 'ml': 3785.41, 'l': 3.78541, 'm³': 0.00378541, 'in³': 231, 'ft³': 0.133681, 'yd³': 0.00495113, 'qt': 4, 'pt': 8, 'cup': 16 },
+                    'qt': { 'ml': 946.353, 'l': 0.946353, 'm³': 0.000946353, 'in³': 57.75, 'ft³': 0.0334201, 'yd³': 0.00123778, 'gal': 0.25, 'pt': 2, 'cup': 4 },
+                    'pt': { 'ml': 473.176, 'l': 0.473176, 'm³': 0.000473176, 'in³': 28.875, 'ft³': 0.0167101, 'yd³': 0.000618891, 'gal': 0.125, 'qt': 0.5, 'cup': 2 },
+                    'cup': { 'ml': 236.588, 'l': 0.236588, 'm³': 0.000236588, 'in³': 14.4375, 'ft³': 0.00835503, 'yd³': 0.000309446, 'gal': 0.0625, 'qt': 0.25, 'pt': 0.5 }
+                },
+                formulas: {
+                    default: "Multiply by conversion factor",
+                    special: {}
+                }
+            },
+            speed: {
+                units: ['m/s', 'km/h', 'mph', 'knot', 'ft/s'],
+                names: ['Meters per Second', 'Kilometers per Hour', 'Miles per Hour', 'Knots', 'Feet per Second'],
+                conversions: {
+                    'm/s': { 'km/h': 3.6, 'mph': 2.23694, 'knot': 1.94384, 'ft/s': 3.28084 },
+                    'km/h': { 'm/s': 0.277778, 'mph': 0.621371, 'knot': 0.539957, 'ft/s': 0.911344 },
+                    'mph': { 'm/s': 0.44704, 'km/h': 1.60934, 'knot': 0.868976, 'ft/s': 1.46667 },
+                    'knot': { 'm/s': 0.514444, 'km/h': 1.852, 'mph': 1.15078, 'ft/s': 1.68781 },
+                    'ft/s': { 'm/s': 0.3048, 'km/h': 1.09728, 'mph': 0.681818, 'knot': 0.592484 }
+                },
+                formulas: {
+                    default: "Multiply by conversion factor",
+                    special: {}
+                }
+            },
+            time: {
+                units: ['ns', 'μs', 'ms', 's', 'min', 'hr', 'day', 'week', 'month', 'year'],
+                names: ['Nanosecond', 'Microsecond', 'Millisecond', 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'],
+                conversions: {
+                    'ns': { 'μs': 0.001, 'ms': 0.000001, 's': 1e-9, 'min': 1.66667e-11, 'hr': 2.77778e-13, 'day': 1.15741e-14, 'week': 1.65344e-15, 'month': 3.80517e-16, 'year': 3.171e-17 },
+                    'μs': { 'ns': 1000, 'ms': 0.001, 's': 0.000001, 'min': 1.66667e-8, 'hr': 2.77778e-10, 'day': 1.15741e-11, 'week': 1.65344e-12, 'month': 3.80517e-13, 'year': 3.171e-14 },
+                    'ms': { 'ns': 1000000, 'μs': 1000, 's': 0.001, 'min': 0.0000166667, 'hr': 2.77778e-7, 'day': 1.15741e-8, 'week': 1.65344e-9, 'month': 3.80517e-10, 'year': 3.171e-11 },
+                    's': { 'ns': 1000000000, 'μs': 1000000, 'ms': 1000, 'min': 0.0166667, 'hr': 0.000277778, 'day': 0.0000115741, 'week': 0.00000165344, 'month': 3.80517e-7, 'year': 3.171e-8 },
+                    'min': { 'ns': 60000000000, 'μs': 60000000, 'ms': 60000, 's': 60, 'hr': 0.0166667, 'day': 0.000694444, 'week': 0.0000992063, 'month': 0.000022831, 'year': 0.00000190259 },
+                    'hr': { 'ns': 3.6e+12, 'μs': 3600000000, 'ms': 3600000, 's': 3600, 'min': 60, 'day': 0.0416667, 'week': 0.00595238, 'month': 0.00136986, 'year': 0.000114155 },
+                    'day': { 'ns': 8.64e+13, 'μs': 86400000000, 'ms': 86400000, 's': 86400, 'min': 1440, 'hr': 24, 'week': 0.142857, 'month': 0.0328767, 'year': 0.00273973 },
+                    'week': { 'ns': 6.048e+14, 'μs': 604800000000, 'ms': 604800000, 's': 604800, 'min': 10080, 'hr': 168, 'day': 7, 'month': 0.230137, 'year': 0.0191781 },
+                    'month': { 'ns': 2.628e+15, 'μs': 2628000000000, 'ms': 2628000000, 's': 2628000, 'min': 43800, 'hr': 730, 'day': 30.4167, 'week': 4.34524, 'year': 0.0833333 },
+                    'year': { 'ns': 3.154e+16, 'μs': 31536000000000, 'ms': 31536000000, 's': 31536000, 'min': 525600, 'hr': 8760, 'day': 365, 'week': 52.1429, 'month': 12 }
+                },
+                formulas: {
+                    default: "Multiply by conversion factor",
+                    special: {}
+                }
+            },
+            digital: {
+                units: ['bit', 'B', 'KB', 'MB', 'GB', 'TB', 'PB'],
+                names: ['Bit', 'Byte', 'Kilobyte', 'Megabyte', 'Gigabyte', 'Terabyte', 'Petabyte'],
+                conversions: {
+                    'bit': { 'B': 0.125, 'KB': 0.00012207, 'MB': 1.19209e-7, 'GB': 1.16415e-10, 'TB': 1.13687e-13, 'PB': 1.11022e-16 },
+                    'B': { 'bit': 8, 'KB': 0.000976563, 'MB': 9.53674e-7, 'GB': 9.31323e-10, 'TB': 9.09495e-13, 'PB': 8.88178e-16 },
+                    'KB': { 'bit': 8192, 'B': 1024, 'MB': 0.000976563, 'GB': 9.53674e-7, 'TB': 9.31323e-10, 'PB': 9.09495e-13 },
+                    'MB': { 'bit': 8388608, 'B': 1048576, 'KB': 1024, 'GB': 0.000976563, 'TB': 9.53674e-7, 'PB': 9.31323e-10 },
+                    'GB': { 'bit': 8589934592, 'B': 1073741824, 'KB': 1048576, 'MB': 1024, 'TB': 0.000976563, 'PB': 9.53674e-7 },
+                    'TB': { 'bit': 8796093022208, 'B': 1099511627776, 'KB': 1073741824, 'MB': 1048576, 'GB': 1024, 'PB': 0.000976563 },
+                    'PB': { 'bit': 9007199254740992, 'B': 1125899906842624, 'KB': 1099511627776, 'MB': 1073741824, 'GB': 1048576, 'TB': 1024 }
+                },
+                formulas: {
+                    default: "Multiply by conversion factor",
+                    special: {}
+                }
+            }
+        };
+
+        // DOM Elements
+        const categorySelect = document.getElementById('category');
+        const fromValueInput = document.getElementById('fromValue');
+        const fromUnitSelect = document.getElementById('fromUnit');
+        const toValueInput = document.getElementById('toValue');
+        const toUnitSelect = document.getElementById('toUnit');
+        const convertButton = document.getElementById('convert');
+        const swapButton = document.getElementById('swap');
+        const clearButton = document.getElementById('clear');
+        const resultDiv = document.getElementById('result');
+        const formulaDiv = document.getElementById('formula');
+        const commonConversionsDiv = document.getElementById('commonConversions');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const toast = document.getElementById('toast');
+
+        // Initialize the converter
+        function initConverter() {
+            updateUnitOptions();
+            loadCommonConversions();
+            setupEventListeners();
+            checkDarkModePreference();
+        }
+
+        // Update unit options based on selected category
+        function updateUnitOptions() {
+            const category = categorySelect.value;
+            const units = unitData[category].units;
+            const names = unitData[category].names;
+
+            // Clear existing options
+            fromUnitSelect.innerHTML = '';
+            toUnitSelect.innerHTML = '';
+
+            // Add new options
+            units.forEach((unit, index) => {
+                const fromOption = document.createElement('option');
+                fromOption.value = unit;
+                fromOption.textContent = `${names[index]} (${unit})`;
+                fromUnitSelect.appendChild(fromOption);
+
+                const toOption = document.createElement('option');
+                toOption.value = unit;
+                toOption.textContent = `${names[index]} (${unit})`;
+                toUnitSelect.appendChild(toOption);
+            });
+
+            // Set default "to" unit to the second option if available
+            if (units.length > 1) {
+                toUnitSelect.selectedIndex = 1;
+            }
+
+            // Clear results
+            clearResults();
+        }
+
+        // Perform the conversion
+        function convert() {
+            const category = categorySelect.value;
+            const fromUnit = fromUnitSelect.value;
+            const toUnit = toUnitSelect.value;
+            const fromValue = parseFloat(fromValueInput.value);
+
+            if (isNaN(fromValue)) {
+                showToast('Please enter a valid number');
+                return;
+            }
+
+            let result;
+            let formulaText = '';
+
+            // Special case for temperature
+            if (category === 'temperature') {
+                result = unitData.temperature.conversions[fromUnit][toUnit](fromValue);
+                const formulaKey = `${fromUnit}_to_${toUnit}`;
+                formulaText = unitData.temperature.formulas.special[formulaKey] || 'Special formula';
+            } else {
+                // Standard conversion
+                if (fromUnit === toUnit) {
+                    result = fromValue;
+                    formulaText = 'No conversion needed (same units)';
+                } else {
+                    const conversionRate = unitData[category].conversions[fromUnit][toUnit];
+                    result = fromValue * conversionRate;
+                    formulaText = `${fromValue} ${fromUnit} × ${conversionRate} = ${result.toFixed(6)} ${toUnit}`;
+                }
+            }
+
+            // Display results
+            toValueInput.value = result.toFixed(6);
+            resultDiv.textContent = `${fromValue} ${fromUnit} = ${result.toFixed(6)} ${toUnit}`;
+            formulaDiv.textContent = formulaText;
+
+            // Update common conversions
+            loadCommonConversions(fromValue, fromUnit);
+        }
+
+        // Swap units
+        function swapUnits() {
+            const tempUnit = fromUnitSelect.value;
+            const tempValue = fromValueInput.value;
+
+            fromUnitSelect.value = toUnitSelect.value;
+            toUnitSelect.value = tempUnit;
+
+            if (toValueInput.value) {
+                fromValueInput.value = toValueInput.value;
+                toValueInput.value = '';
+            } else if (tempValue) {
+                convert();
+            }
+        }
+
+        // Clear inputs and results
+        function clearResults() {
+            fromValueInput.value = '';
+            toValueInput.value = '';
+            resultDiv.textContent = '0';
+            formulaDiv.textContent = 'Select units to see conversion formula';
+            commonConversionsDiv.innerHTML = '';
+        }
+
+        // Load common conversions
+        function loadCommonConversions(fromValue = 1, fromUnit = null) {
+            const category = categorySelect.value;
+            const units = unitData[category].units;
+            const names = unitData[category].names;
+            
+            if (!fromUnit) {
+                fromUnit = units[0];
+            }
+
+            commonConversionsDiv.innerHTML = '';
+
+            units.forEach((unit, index) => {
+                if (unit !== fromUnit) {
+                    let convertedValue;
+                    let formulaText;
+
+                    if (category === 'temperature') {
+                        convertedValue = unitData.temperature.conversions[fromUnit][unit](fromValue);
+                        const formulaKey = `${fromUnit}_to_${unit}`;
+                        formulaText = unitData.temperature.formulas.special[formulaKey];
+                    } else {
+                        convertedValue = fromValue * unitData[category].conversions[fromUnit][unit];
+                        formulaText = `Multiply by ${unitData[category].conversions[fromUnit][unit]}`;
+                    }
+
+                    const conversionCard = document.createElement('div');
+                    conversionCard.className = 'conversion-card';
+                    conversionCard.innerHTML = `
+                        <h3>${names[index]} (${unit})</h3>
+                        <p>${fromValue} ${fromUnit} = ${convertedValue.toFixed(6)} ${unit}</p>
+                        <small>${formulaText}</small>
+                    `;
+                    commonConversionsDiv.appendChild(conversionCard);
+                }
+            });
+        }
+
+        // Show toast notification
+        function showToast(message, duration = 3000) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        // Dark mode functionality
+        function checkDarkModePreference() {
+            if (localStorage.getItem('darkMode') === 'enabled' || 
+                (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        function toggleDarkMode() {
+            if (document.body.classList.contains('dark-mode')) {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            categorySelect.addEventListener('change', updateUnitOptions);
+            convertButton.addEventListener('click', convert);
+            swapButton.addEventListener('click', swapUnits);
+            clearButton.addEventListener('click', clearResults);
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
+            // Allow conversion on Enter key
+            fromValueInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    convert();
+                }
+            });
+
+            // Copy result to clipboard
+            toValueInput.addEventListener('click', () => {
+                if (toValueInput.value) {
+                    navigator.clipboard.writeText(toValueInput.value);
+                    showToast('Result copied to clipboard!');
+                }
+            });
+        }
+
+        // Initialize the converter when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initConverter);
+    </script>
+</body>
+</html>
