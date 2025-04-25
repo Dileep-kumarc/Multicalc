@@ -353,8 +353,6 @@ footer {
         margin: 1rem;
     }
 }
-
-
     </style>
 </head>
 <body>
@@ -376,22 +374,22 @@ footer {
                 <div class="form-group">
                     <label for="principal">Principal Amount:</label>
                     <div class="input-group">
-                        <select id="currency" name="currency">
+                        <select id="currency" name="currency" class="currency-select">
                             <option value="USD">USD ($)</option>
                             <option value="INR">INR (₹)</option>
                             <option value="EUR">EUR (€)</option>
                             <option value="GBP">GBP (£)</option>
                         </select>
-                        <input type="number" id="principal" name="principal" required>
+                        <input type="number" id="principal" name="principal" required placeholder="Enter amount">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="rate">Annual Interest Rate (%):</label>
-                    <input type="number" id="rate" name="rate" step="0.01" required>
+                    <input type="number" id="rate" name="rate" step="0.01" required placeholder="Enter rate">
                 </div>
                 <div class="form-group">
                     <label for="years">Time Period (years):</label>
-                    <input type="number" id="years" name="years" required>
+                    <input type="number" id="years" name="years" required placeholder="Enter years">
                 </div>
                 <div class="form-group">
                     <label for="compounding">Compounding Frequency:</label>
@@ -405,25 +403,27 @@ footer {
                 <button type="submit">Calculate</button>
             </form>
 
-            <div class="result-container">
+            <div class="result-container" id="resultContainer">
                 <h3>Calculation Result</h3>
                 <div class="chart-container">
                     <canvas id="growthChart"></canvas>
                 </div>
-                <div class="result-item">
-                    <h3>Future Value</h3>
-                    <span id="futureValue">-</span>
-                </div>
-                <div class="result-item">
-                    <h3>Total Interest</h3>
-                    <span id="totalInterest">-</span>
+                <div class="result-cards">
+                    <div class="result-item">
+                        <h3>Future Value</h3>
+                        <span id="futureValue">-</span>
+                    </div>
+                    <div class="result-item">
+                        <h3>Total Interest</h3>
+                        <span id="totalInterest">-</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="about-section" id="about-section">
             <h2>What is Compound Interest?</h2>
-            <p>Compound interest is calculated on the principal amount and also on the accumulated interest of previous periods. It's often called “interest on interest.”</p>
+            <p>Compound interest is calculated on the principal amount and also on the accumulated interest of previous periods. It's often called "interest on interest."</p>
         </div>
     </div>
 
@@ -445,103 +445,133 @@ footer {
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script >
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('compoundInterestForm');
-    const ctx = document.getElementById('growthChart').getContext('2d');
-    let chart = null;
+            const form = document.getElementById('compoundInterestForm');
+            const resultContainer = document.getElementById('resultContainer');
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            let chart = null;
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
 
-        const principal = parseFloat(document.getElementById('principal').value);
-        const rate = parseFloat(document.getElementById('rate').value) / 100;
-        const years = parseInt(document.getElementById('years').value);
-        const compounding = parseInt(document.getElementById('compounding').value);
-        const currency = document.getElementById('currency').value;
-        const currencySymbol = getCurrencySymbol(currency);
+                // Get form values
+                const principal = parseFloat(document.getElementById('principal').value);
+                const rate = parseFloat(document.getElementById('rate').value) / 100;
+                const years = parseInt(document.getElementById('years').value);
+                const compounding = parseInt(document.getElementById('compounding').value);
+                const currency = document.getElementById('currency').value;
+                const currencySymbol = getCurrencySymbol(currency);
 
-        if (chart) chart.destroy();
-
-        const data = {
-            labels: [],
-            datasets: [
-                {
-                    label: 'Total Value',
-                    data: [],
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    fill: true,
-                    tension: 0.1
-                },
-                {
-                    label: 'Principal',
-                    data: [],
-                    borderColor: 'rgb(54, 162, 235)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    fill: true,
-                    tension: 0.1
+                // Validate inputs
+                if (isNaN(principal) || isNaN(rate) || isNaN(years)) {
+                    alert('Please enter valid numbers for all fields');
+                    return;
                 }
-            ]
-        };
 
-        for (let i = 0; i <= years; i++) {
-            const total = principal * Math.pow(1 + rate / compounding, compounding * i);
-            data.labels.push(`Year ${i}`);
-            data.datasets[0].data.push(total);
-            data.datasets[1].data.push(principal);
-        }
+                // Destroy previous chart if it exists
+                if (chart) {
+                    chart.destroy();
+                }
 
-        const finalTotal = data.datasets[0].data[years];
+                // Prepare data for chart
+                const labels = [];
+                const totalValues = [];
+                const principalValues = [];
+                const interestValues = [];
 
-        document.getElementById('futureValue').textContent = `${currencySymbol}${finalTotal.toFixed(2)}`;
-        document.getElementById('totalInterest').textContent = `${currencySymbol}${(finalTotal - principal).toFixed(2)}`;
+                for (let i = 0; i <= years; i++) {
+                    const total = principal * Math.pow(1 + rate / compounding, compounding * i);
+                    labels.push(`Year ${i}`);
+                    totalValues.push(total);
+                    principalValues.push(principal);
+                    interestValues.push(total - principal);
+                }
 
-        chart = new Chart(ctx, {
-            type: 'line',
-            data: data,
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Compound Interest Growth'
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Years'
-                        }
+                const finalTotal = totalValues[years];
+                const totalInterest = finalTotal - principal;
+
+                // Update result display
+                document.getElementById('futureValue').textContent = `${currencySymbol}${finalTotal.toFixed(2)}`;
+                document.getElementById('totalInterest').textContent = `${currencySymbol}${totalInterest.toFixed(2)}`;
+
+                // Show results
+                resultContainer.classList.add('show');
+
+                // Create new chart
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Total Value',
+                                data: totalValues,
+                                borderColor: 'rgb(75, 192, 192)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                fill: true,
+                                tension: 0.1
+                            },
+                            {
+                                label: 'Principal',
+                                data: principalValues,
+                                borderColor: 'rgb(54, 162, 235)',
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                fill: true,
+                                tension: 0.1
+                            }
+                        ]
                     },
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Amount'
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Compound Interest Growth'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.dataset.label}: ${currencySymbol}${context.raw.toFixed(2)}`;
+                                    }
+                                }
+                            }
                         },
-                        ticks: {
-                            callback: function(value) {
-                                return currencySymbol + value.toLocaleString();
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Years'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Amount'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return currencySymbol + value.toLocaleString();
+                                    }
+                                }
                             }
                         }
                     }
-                }
+                });
+            });
+
+            function getCurrencySymbol(currency) {
+                const symbols = {
+                    'USD': '$',
+                    'INR': '₹',
+                    'EUR': '€',
+                    'GBP': '£'
+                };
+                return symbols[currency] || '$';
             }
         });
-    });
-
-    function getCurrencySymbol(currency) {
-        const symbols = {
-            'USD': '$',
-            'INR': '₹',
-            'EUR': '€',
-            'GBP': '£'
-        };
-        return symbols[currency] || '$';
-    }
-});
     </script>
 </body>
 </html>
