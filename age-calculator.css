@@ -239,16 +239,39 @@
         margin: 1rem;
         max-width: calc(100% - 2rem);
     }
-    
+
     .age-timeline::before {
         left: 1rem;
     }
-    
+
     .age-timeline-item {
         padding-left: 3rem;
     }
-    
+
     .age-timeline-item::before {
         left: 1rem;
+    }
+
+    /* New additions for better mobile layout */
+    .age-summary {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .age-box {
+        flex: 1 1 100px;
+        min-width: 90px;
+        text-align: center;
+    }
+
+    .age-box h2 {
+        font-size: 1.5rem;
+    }
+
+    .age-box p {
+        font-size: 0.9rem;
     }
 }
