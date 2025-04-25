@@ -8,11 +8,7 @@
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/548/548353.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.3/katex.min.css">
     <style>
-        /* Google Font */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
         html {
             scroll-behavior: smooth;
         }
@@ -51,6 +47,7 @@
             display: flex;
             list-style: none;
             gap: 1rem;
+            margin: 0;
             transition: all 0.3s ease;
         }
 
@@ -64,6 +61,16 @@
 
         .nav-links a:hover {
             background: #34495e;
+        }
+
+        /* Hamburger Menu for Mobile */
+        .navbar-toggle {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
         }
 
         /* Main Content */
@@ -122,6 +129,15 @@
             outline: none;
             border-color: #3498db;
             box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        /* Input Validation Styling */
+        input:invalid:not(:placeholder-shown) {
+            border-color: #e74c3c;
+        }
+
+        input:invalid:not(:placeholder-shown) + select {
+            border-color: #e74c3c;
         }
 
         .unit-select {
@@ -253,6 +269,11 @@
             margin: 0 auto;
         }
 
+        .footer-section {
+            flex: 1;
+            min-width: 150px;
+        }
+
         .footer-section ul {
             list-style: none;
             padding: 0;
@@ -277,6 +298,7 @@
             margin-top: 1rem;
             font-size: 0.85rem;
             color: #aaa;
+            width: 100%;
         }
 
         /* Responsive */
@@ -284,6 +306,11 @@
             .navbar {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .navbar-toggle {
+                display: block;
+                align-self: flex-end;
             }
 
             .nav-links {
@@ -309,6 +336,14 @@
                 width: 100%;
                 margin-top: 0.5rem;
             }
+
+            .pythagorean-diagram {
+                max-width: 250px;
+            }
+
+            .diagram-label {
+                font-size: 0.7rem;
+            }
         }
     </style>
 </head>
@@ -316,6 +351,9 @@
     <header>
         <nav class="navbar">
             <div class="logo">MultiCalc</div>
+            <button class="navbar-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
@@ -442,13 +480,125 @@
                 </ul>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 MultiCalc. All rights reserved.</p>
+                <p>© 2025 MultiCalc. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <script src="pythagorean.js>
-        
+    <script >
+      // Navbar Toggle for Mobile
+document.addEventListener('DOMContentLoaded', () => {
+    const navbarToggle = document.querySelector('.navbar-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    navbarToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    // Pythagorean Calculator
+    const form = document.getElementById('pythagoreanCalculator');
+    const sideToFind = document.getElementById('sideToFind');
+    const inputA = document.getElementById('inputA');
+    const inputB = document.getElementById('inputB');
+    const inputC = document.getElementById('inputC');
+    const resultContainer = document.getElementById('result');
+    const resultValue = document.getElementById('resultValue');
+    const calculationSteps = document.getElementById('calculation');
+
+    // Update form inputs based on side to find
+    sideToFind.addEventListener('change', () => {
+        const value = sideToFind.value;
+        inputA.style.display = value === 'a' ? 'none' : 'block';
+        inputB.style.display = value === 'b' ? 'none' : 'block';
+        inputC.style.display = value === 'c' ? 'none' : 'block';
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const side = sideToFind.value;
+        const a = parseFloat(document.getElementById('sideA').value) || 0;
+        const b = parseFloat(document.getElementById('sideB').value) || 0;
+        const c = parseFloat(document.getElementById('sideC').value) || 0;
+        const unitA = document.getElementById('unitA').value;
+        const unitB = document.getElementById('unitB').value;
+        const unitC = document.getElementById('unitC').value;
+
+        let result, steps;
+
+        // Basic unit conversion to meters (simplified, assumes same units for simplicity)
+        const toMeters = (value, unit) => {
+            const factors = {
+                mm: 0.001,
+                cm: 0.01,
+                m: 1,
+                km: 1000,
+                in: 0.0254,
+                ft: 0.3048
+            };
+            return value * factors[unit];
+        };
+
+        const fromMeters = (value, unit) => {
+            const factors = {
+                mm: 1000,
+                cm: 100,
+                m: 1,
+                km: 0.001,
+                in: 39.3701,
+                ft: 3.28084
+            };
+            return value * factors[unit];
+        };
+
+        try {
+            if (side === 'c') {
+                const aMeters = toMeters(a, unitA);
+                const bMeters = toMeters(b, unitB);
+                const cMeters = Math.sqrt(aMeters ** 2 + bMeters ** 2);
+                result = fromMeters(cMeters, unitA); // Use unitA for output
+                steps = `
+                    <p>Using: c = √(a² + b²)</p>
+                    <p>a = ${a} ${unitA}, b = ${b} ${unitB}</p>
+                    <p>c = √((${a}² + ${b}²) ${unitA})</p>
+                    <p>c = ${result.toFixed(2)} ${unitA}</p>
+                `;
+            } else if (side === 'a') {
+                const bMeters = toMeters(b, unitB);
+                const cMeters = toMeters(c, unitC);
+                if (cMeters <= bMeters) throw new Error('Hypotenuse must be longer than leg');
+                const aMeters = Math.sqrt(cMeters ** 2 - bMeters ** 2);
+                result = fromMeters(aMeters, unitC); // Use unitC for output
+                steps = `
+                    <p>Using: a = √(c² - b²)</p>
+                    <p>b = ${b} ${unitB}, c = ${c} ${unitC}</p>
+                    <p>a = √((${c}² - ${b}²) ${unitC})</p>
+                    <p>a = ${result.toFixed(2)} ${unitC}</p>
+                `;
+            } else {
+                const aMeters = toMeters(a, unitA);
+                const cMeters = toMeters(c, unitC);
+                if (cMeters <= aMeters) throw new Error('Hypotenuse must be longer than leg');
+                const bMeters = Math.sqrt(cMeters ** 2 - aMeters ** 2);
+                result = fromMeters(bMeters, unitC); // Use unitC for output
+                steps = `
+                    <p>Using: b = √(c² - a²)</p>
+                    <p>a = ${a} ${unitA}, c = ${c} ${unitC}</p>
+                    <p>b = √((${c}² - ${a}²) ${unitC})</p>
+                    <p>b = ${result.toFixed(2)} ${unitC}</p>
+                `;
+            }
+
+            resultValue.textContent = `Missing side (${side}) = ${result.toFixed(2)} ${side === 'c' ? unitA : unitC}`;
+            calculationSteps.innerHTML = steps;
+            resultContainer.classList.add('show');
+        } catch (error) {
+            resultValue.textContent = `Error: ${error.message}`;
+            calculationSteps.innerHTML = '';
+            resultContainer.classList.add('show');
+        }
+    });
+});
     </script>
 </body>
 </html>
