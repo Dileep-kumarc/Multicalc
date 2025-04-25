@@ -713,28 +713,29 @@ tr:hover {
 tr.alternate-row {
     background-color: var(--background-alt);
 }
-
 /* Scientific Calculator Styles */
 .scientific-calculator {
-    background: var(--background-light);
-    border-radius: var(--radius-md);
+    background: #f8f9fa;
+    border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     max-width: 500px;
     margin: 0 auto;
+    font-family: 'Inter', sans-serif;
 }
 
 .calc-display {
-    background: var(--background-alt);
+    background: #ffffff;
     padding: 1rem;
     margin-bottom: 1rem;
-    border-radius: var(--radius-sm);
+    border-radius: 8px;
     text-align: right;
+    border: 1px solid #e0e0e0;
 }
 
 .calc-display .expression {
     font-size: 0.9rem;
-    color: var(--text-light);
+    color: #7f8c8d;
     min-height: 1.2em;
     margin-bottom: 0.5rem;
     word-wrap: break-word;
@@ -743,7 +744,7 @@ tr.alternate-row {
 .calc-display .result {
     font-size: 2rem;
     font-weight: 600;
-    color: var(--text-dark);
+    color: #2c3e50;
 }
 
 .mode-toggle {
@@ -754,18 +755,20 @@ tr.alternate-row {
 
 .mode-toggle button {
     flex: 1;
-    background: var(--background-alt);
-    color: var(--text-light);
-    border: 1px solid var(--border-color);
+    background: #e9ecef;
+    color: #495057;
+    border: 1px solid #dee2e6;
     padding: 0.5rem;
     font-size: 0.9rem;
-    border-radius: var(--radius-sm);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .mode-toggle button.active {
-    background: var(--primary-color);
+    background: #4a6bff;
     color: white;
-    border-color: var(--primary-dark);
+    border-color: #3a56d4;
 }
 
 .calc-buttons {
@@ -783,15 +786,16 @@ tr.alternate-row {
     width: 100%;
     aspect-ratio: 1.5;
     font-size: 1.1rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    background: var(--background-light);
-    color: var(--text-color);
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #2c3e50;
     transition: all 0.2s;
+    cursor: pointer;
 }
 
 .calc-buttons button:hover {
-    background: var(--background-alt);
+    background: #e9ecef;
     transform: translateY(-1px);
 }
 
@@ -799,62 +803,76 @@ tr.alternate-row {
     transform: translateY(1px);
 }
 
+/* Operator Container Styles */
+.operator-container {
+    display: flex;
+    flex-direction: column;
+    grid-column: span 1;
+    gap: 0.5rem;
+}
+
+.operator-container button {
+    flex: 1;
+    aspect-ratio: auto;
+    height: 100%;
+}
+
 .calc-buttons .number {
     background: white;
 }
 
 .calc-buttons .operator {
-    background: var(--background-alt);
-    color: var(--primary-color);
+    background: #e9ecef;
+    color: #4a6bff;
     font-weight: 600;
 }
 
 .calc-buttons .function {
-    background: var(--background-alt);
+    background: #e9ecef;
     font-size: 0.9rem;
 }
 
 .calc-buttons .equals {
-    background: var(--primary-color);
+    background: #4a6bff;
     color: white;
     font-weight: 600;
 }
 
 .calc-buttons .clear {
-    background: var(--accent-color);
+    background: #dc3545;
     color: white;
 }
 
 .calc-buttons .delete {
-    background: var(--text-light);
+    background: #6c757d;
     color: white;
 }
 
 .history-panel {
     margin-top: 2rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid #dee2e6;
 }
 
 .history-panel h3 {
     font-size: 1rem;
-    color: var(--text-dark);
+    color: #2c3e50;
     margin-bottom: 1rem;
 }
 
 .history-item {
     padding: 0.5rem;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid #dee2e6;
 }
 
 .history-expression {
     font-size: 0.9rem;
-    color: var(--text-light);
+    color: #7f8c8d;
 }
 
 .history-result {
     font-size: 1.1rem;
-    color: var(--text-dark);
+    color: #2c3e50;
     font-weight: 500;
 }
 
@@ -862,10 +880,16 @@ tr.alternate-row {
     width: 100%;
     margin-top: 1rem;
     padding: 0.5rem;
-    background: var(--background-alt);
-    color: var(--text-light);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
+    background: #e9ecef;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#clearHistory:hover {
+    background: #dee2e6;
 }
 
 @media (max-width: 500px) {
@@ -876,73 +900,30 @@ tr.alternate-row {
     .calc-buttons button {
         font-size: 1rem;
     }
-}
-
-/* Calculator Tabs */
-.calc-tabs {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5rem;
-}
-
-.tab-button {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    background: var(--background-alt);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    color: var(--text-light);
-    font-weight: 500;
-    transition: var(--transition);
-}
-
-.tab-button:hover {
-    background: var(--background-light);
-    transform: translateY(-2px);
-}
-
-.tab-button.active {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-dark);
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* Calculation Steps */
-.calculation-breakdown {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background: var(--background-alt);
-    border-radius: var(--radius-md);
-    color: var(--text-color);
-    line-height: 1.6;
-}
-
-.calculation-breakdown strong {
-    color: var(--text-dark);
-    display: block;
-    margin-bottom: 0.5rem;
-}
-
-@media (max-width: 768px) {
-    .calc-tabs {
-        flex-direction: column;
-    }
     
-    .tab-button {
-        width: 100%;
+    .operator-container {
+        grid-column: span 4;
+        flex-direction: row;
     }
 }
 
+/* Operator-specific styles */
+.calc-buttons .operator[data-action="add"],
+.calc-buttons .operator[data-action="subtract"],
+.calc-buttons .operator[data-action="multiply"],
+.calc-buttons .operator[data-action="divide"] {
+    background: #4a6bff;
+    color: white;
+    font-size: 1.2rem;
+    border: none;
+}
+
+.calc-buttons .operator[data-action="add"]:hover,
+.calc-buttons .operator[data-action="subtract"]:hover,
+.calc-buttons .operator[data-action="multiply"]:hover,
+.calc-buttons .operator[data-action="divide"]:hover {
+    background: #3a56d4;
+}
 /* Footer */
 footer {
     background-color: white;
