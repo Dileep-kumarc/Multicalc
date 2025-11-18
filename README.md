@@ -23,7 +23,7 @@ A collection of useful calculators with a modern, responsive design. Features in
   - Time (minutes/hours/days)
 
 ## 🚀 Live Demo
-Visit [MultiCalc](https://your-github-username.github.io/multicac) to try it out!
+Visit [MultiCalc](https://www.freeonlinecalculators.online/) to try it out!
 
 ## 💻 Tech Stack
 - HTML5
@@ -92,4 +92,5 @@ For support, please visit our [contact page](contact.html) or open an issue on G
 - Your Name (@your-github-username)
 
 ## 📊 Analytics
+
 This site uses Google Analytics and AdSense to improve user experience and maintain the free service.
